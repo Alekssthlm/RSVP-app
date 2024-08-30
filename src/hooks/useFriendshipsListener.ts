@@ -13,7 +13,7 @@ type Friendship = {
   initiated_by: string
 }
 
-export function useFriendships(userId: string) {
+export function useFriendshipsListener(userId: string) {
   const [friendships, setFriendships] = useState<Friendship[]>([])
   const supabaseBrowserClient = getSupabaseBrowserClient()
 

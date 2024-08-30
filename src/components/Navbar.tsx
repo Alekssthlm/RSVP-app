@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
 import AuthStateContext from "@/context/AuthStateContext"
-import { useFriendships } from "@/hooks/useFriendships"
 
 const Navbar = () => {
   const { isLoggedIn, setIsLoggedIn, user, setUser, userId, setUserId } =

@@ -2,7 +2,8 @@
 
 import { Input } from "@/components/ui/input"
 import AuthStateContext from "@/context/AuthStateContext"
-import { useFriendships } from "@/hooks/useFriendships"
+import { useFriendshipsListener } from "@/hooks/useFriendshipsListener"
+
 import { FriendRequest, SearchResult } from "@/types/app"
 import filterFriendshipData from "@/utils/filterFriendshipData"
 import getProfileSearch from "@/utils/getProfileSearch"
@@ -21,7 +22,7 @@ export default function page() {
 
   const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([])
   const [friends, setFriends] = useState<FriendRequest[]>([])
-  const fetchFriendshipsData = useFriendships(userId)
+  const fetchFriendshipsData = useFriendshipsListener(userId)
 
   // FETCH FRIENDS AND FRIEND REQUESTS
   useEffect(() => {
@@ -98,16 +99,18 @@ export default function page() {
 
       <section className="flex flex-col gap-6 py-4">
         <div className="rounded-xl">
-          <h1 className="text-[#ffffff] text-[1.2rem] font-bold">Invites</h1>
+          <h1 className="text-[#ffffff] text-[1.1rem] font-bold">Invites</h1>
           {friendRequests.length > 0 ? (
             friendRequests.map((req) => (
               <div
                 key={req.id}
-                className="bg-[#00000086] rounded-md flex justify-between px-4 py-2"
+                className="bg-[#00000086] border border-gray-500 rounded-md flex justify-between px-4 py-2"
               >
                 <div className="flex flex-col">
                   <h2 className="font-bold">{req.full_name_1}</h2>
-                  <p className="text-[0.8rem]">@{req.username_1}</p>
+                  <p className="text-[0.8rem] text-[#28dfff]">
+                    @{req.username_1}
+                  </p>
                 </div>
                 <div className="flex gap-4">
                   <button onClick={() => updateFriendRequest(req.id)}>
@@ -120,9 +123,11 @@ export default function page() {
               </div>
             ))
           ) : (
-            <div className="bg-[#00000086] rounded-md flex justify-between px-4 py-2">
+            <div className="bg-[#00000086] rounded-md flex justify-between px-2 py-2">
               <div className="flex flex-col ">
-                <h2 className="font-bold text-white">No requests pending</h2>
+                <h2 className=" text-white text-[0.8rem]">
+                  No requests pending
+                </h2>
               </div>
             </div>
           )}
@@ -134,7 +139,7 @@ export default function page() {
             friends.map((friend) => (
               <div
                 key={friend.id}
-                className="bg-[#00000086] rounded-md flex justify-between px-4 py-2"
+                className="bg-[#00000086] rounded-md flex justify-between px-4 py-2 border border-gray-500"
               >
                 <div className="flex flex-col  text-white">
                   {friend.initiated_by === userId ? (
@@ -144,11 +149,11 @@ export default function page() {
                   )}
 
                   {friend.initiated_by === userId ? (
-                    <p className="text-[0.8rem] text-[#717171]">
+                    <p className="text-[0.8rem] text-[#28dfff] ">
                       @{friend.username_2}
                     </p>
                   ) : (
-                    <p className="text-[0.8rem] text-[#9f9f9f]">
+                    <p className="text-[0.8rem] text-[#28dfff]">
                       @{friend.username_1}
                     </p>
                   )}

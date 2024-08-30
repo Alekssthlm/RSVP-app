@@ -20,13 +20,14 @@ import DatePicker from "@/components/DatePicker"
 import React, { useContext, useEffect, useRef } from "react"
 import AuthStateContext from "@/context/AuthStateContext"
 import useGetFriends from "@/utils/getFriends"
-import { useFriendships } from "@/hooks/useFriendships"
 import { Checkbox } from "@/components/ui/checkbox"
+import { createEvent } from "@/utils/handleEvent"
+import { useFriendshipsListener } from "@/hooks/useFriendshipsListener"
 
 const formSchema = z
   .object({
     title: z.string().min(1, { message: "Title is required" }),
-    content: z.string().min(1, { message: "Content is required" }),
+    description: z.string().min(1, { message: "Description is required" }),
     start_time: z.date(),
     end_time: z.date(),
     location: z.string(),
@@ -39,11 +40,17 @@ const formSchema = z
     path: ["end_time"],
   })
 
+interface Friendship {
+  friend: string
+  friendName: string
+  friendUsername: string
+}
+
 // * START * //
 
 export default function Page() {
   const { userId } = useContext(AuthStateContext)
-  const fetchFriendshipsData = useFriendships(userId)
+  const fetchFriendshipsData = useFriendshipsListener(userId)
   const [mapUrl, setMapUrl] = React.useState<string | null>(null)
   const router = useRouter()
   const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -53,7 +60,7 @@ export default function Page() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      content: "",
+      description: "",
       location: "",
       invited_friends: [],
     },
@@ -86,17 +93,25 @@ export default function Page() {
     const start_timeISO = new Date(values.start_time).toISOString()
     const end_timeISO = new Date(values.end_time).toISOString()
 
-    const {} = values
-    const newValues = {}
+    const { title, description, location, invited_friends } = values
+    const newValues = {
+      organiser: userId,
+      title,
+      description,
+      start_time: start_timeISO,
+      end_time: end_timeISO,
+      location,
+      invited_friends,
+    }
 
-    console.log(values)
+    createEvent(newValues)
   }
 
   return (
     <section className="flex flex-col gap-4 text-white bg-[#00000086] rounded-md p-2">
       <button
         className="self-start text-[0.7rem]"
-        onClick={() => router.back()}
+        onClick={() => router.push("/dashboard")}
       >
         ← BACK
       </button>
@@ -107,7 +122,7 @@ export default function Page() {
             <CustomFormInput form={form} title="Title" name="title" />
             <FormField
               control={form.control}
-              name="content"
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
@@ -170,7 +185,7 @@ export default function Page() {
                       Select the friends you want to invite
                     </FormDescription>
                   </div>
-                  {friendList.map((friendship) => (
+                  {friendList.map((friendship: Friendship) => (
                     <FormField
                       key={friendship.friend}
                       control={form.control}
