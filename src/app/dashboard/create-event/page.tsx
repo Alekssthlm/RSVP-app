@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import CustomFormInput from "@/components/CustomFormInput"
 import { Textarea } from "@/components/ui/textarea"
 import DatePicker from "@/components/DatePicker"
-import React, { useContext, useEffect, useRef } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import AuthStateContext from "@/context/AuthStateContext"
 import useGetFriends from "@/utils/getFriends"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -52,6 +52,7 @@ export default function Page() {
   const { userId } = useContext(AuthStateContext)
   const fetchFriendshipsData = useFriendshipsListener(userId)
   const [mapUrl, setMapUrl] = React.useState<string | null>(null)
+  const [message, setMessage] = useState("")
   const router = useRouter()
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const friendList = useGetFriends(userId, fetchFriendshipsData)
@@ -104,7 +105,8 @@ export default function Page() {
       invited_friends,
     }
 
-    createEvent(newValues)
+    const result = await createEvent(newValues)
+    console.log(result.message)
   }
 
   return (

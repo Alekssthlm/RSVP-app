@@ -75,11 +75,12 @@ export default function page() {
                   )
 
                   return (
-                    <div
+                    <Link
                       key={event.id}
+                      href={`/dashboard/my-events/${event.id}`}
                       className="bg-[#00000086] rounded-[10px] relative overflow-hidden"
                     >
-                      <div className="aspect-video bg-[#535353]"></div>
+                      <div className="h-[180px] w-auto bg-[#535353]"></div>
                       <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-end px-4 py-2 bg-gradient-to-b from-transparent from-10% via-[#000000b4] via-90% to-[#000000f2]">
                         <h2>{event.title}</h2>
                         <p className="text-[0.8rem]">{event.location}</p>
@@ -90,12 +91,12 @@ export default function page() {
                           <p>End: {formattedEndTime}</p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   )
                 })}
                 <Link
                   href="/dashboard/create-event"
-                  className="bg-[#00000086] py-2 px-4 rounded-[10px] flex justify-center items-center text-[0.9rem]"
+                  className="bg-[#00000086] py-2 px-4 rounded-[10px] flex justify-center items-center text-[0.9rem] h-[180px] w-auto"
                 >
                   <Plus /> Create Event
                 </Link>
