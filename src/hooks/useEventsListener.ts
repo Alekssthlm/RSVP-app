@@ -16,7 +16,7 @@ type Events = {
   created_at: string
 }
 
-export function useEventsListener(userId: string) {
+export function useEventsPreviewListener(userId: string) {
   const [myEvents, setMyEvents] = useState<Events[]>([])
   const [otherEvents, setOtherEvents] = useState<Events[]>([])
   const [loading, setLoading] = useState(true) // Loading state

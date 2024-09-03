@@ -104,7 +104,7 @@ export default function page() {
             friendRequests.map((req) => (
               <div
                 key={req.id}
-                className="bg-[#00000086] border border-gray-500 rounded-md flex justify-between px-4 py-2"
+                className="bg-[#00000086] text-white border border-gray-500 rounded-md flex justify-between px-4 py-2"
               >
                 <div className="flex flex-col">
                   <h2 className="font-bold">{req.full_name_1}</h2>

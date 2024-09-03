@@ -56,10 +56,81 @@ export async function getEvent(eventId: string): Promise<any> {
   }
 }
 
-// export async function updateEvent(friendshipId: string) {
+export async function editEvent(event_id: string, eventData: createEvent) {
+  const {
+    organiser,
+    title,
+    description,
+    start_time,
+    end_time,
+    location,
+    invited_friends,
+  } = eventData
 
-// }
+  const supabaseBrowserClient = getSupabaseBrowserClient()
 
-// export async function deleteEvent(friendshipId: string) {
+  const { data, error } = await supabaseBrowserClient
+    .from("events")
+    .update({
+      organiser_id: organiser,
+      title,
+      description,
+      start_time,
+      end_time,
+      location,
+      invited_friends,
+    })
+    .eq("id", event_id) // Update only the specific event
 
-// }
+  if (error) {
+    console.error("Error updating event", error.message)
+    return { success: false, message: `Error updating event: ${error.message}` }
+  } else {
+    return { success: true, message: "Event updated successfully" }
+  }
+}
+
+export async function deleteEvent(
+  eventId: string,
+  authIsEventOrganiser: boolean
+) {
+  const supabaseBrowserClient = getSupabaseBrowserClient()
+
+  if (authIsEventOrganiser) {
+    const { error: deleteError } = await supabaseBrowserClient
+      .from("events")
+      .delete()
+      .eq("id", eventId)
+
+    if (deleteError) {
+      console.error("Error deleting event", deleteError.message)
+      return {
+        success: false,
+        message: `Error deleting event: ${deleteError.message}`,
+      }
+    } else {
+      return { success: true, message: "Event deleted successfully" }
+    }
+  } else {
+    return { success: false, message: "You are not the event organiser" }
+  }
+}
+
+export async function updateSelectStatus(invitationId: string, status: string) {
+  const supabaseBrowserClient = getSupabaseBrowserClient()
+
+  const { error: updateError } = await supabaseBrowserClient
+    .from("invitations")
+    .update({ status })
+    .eq("id", invitationId)
+
+  if (updateError) {
+    console.error("Error updating status", updateError.message)
+    return {
+      success: false,
+      message: `Error updating status: ${updateError.message}`,
+    }
+  } else {
+    return { success: true, message: "Status updated successfully" }
+  }
+}
