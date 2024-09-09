@@ -2,7 +2,8 @@
 
 import { Input } from "@/components/ui/input"
 import AuthStateContext from "@/context/AuthStateContext"
-import { useFriendships } from "@/hooks/useFriendships"
+import { useFriendshipsListener } from "@/hooks/useFriendshipsListener"
+
 import { FriendRequest, SearchResult } from "@/types/app"
 import filterFriendshipData from "@/utils/filterFriendshipData"
 import getProfileSearch from "@/utils/getProfileSearch"
@@ -10,6 +11,7 @@ import {
   updateFriendRequest,
   deleteFriendRequest,
 } from "@/utils/handleFriendRequest"
+import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
 
 export default function page() {
@@ -21,7 +23,7 @@ export default function page() {
 
   const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([])
   const [friends, setFriends] = useState<FriendRequest[]>([])
-  const fetchFriendshipsData = useFriendships(userId)
+  const fetchFriendshipsData = useFriendshipsListener(userId)
 
   // FETCH FRIENDS AND FRIEND REQUESTS
   useEffect(() => {
@@ -66,15 +68,17 @@ export default function page() {
   }, [])
 
   return (
-    <section>
-      <div className="relative">
+    <section className="p-2">
+      <div className="relative max-w-[20rem]">
         <Input
           type="text"
           name="search"
           id="search"
+          autoComplete="off"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Search profile"
+          placeholder="Search @username"
+          className=""
         />
         <div
           className={`absolute top-[100%] w-full left-0 bg-blue-400 ${
@@ -96,18 +100,20 @@ export default function page() {
         </div>
       </div>
 
-      <section className="flex flex-col gap-6 py-4">
-        <div className="rounded-xl">
-          <h1 className="text-[#ffffff] text-[1.2rem] font-bold">Invites</h1>
+      <section className="flex flex-col lg:flex-row gap-6 py-4 text-white">
+        <div className="rounded-xl lg:order-2 lg:flex-[1]">
+          <h1 className=" text-[1.5rem] font-bold">Invites</h1>
           {friendRequests.length > 0 ? (
             friendRequests.map((req) => (
               <div
                 key={req.id}
-                className="bg-[#00000086] rounded-md flex justify-between px-4 py-2"
+                className="bg-[#00000086] text-white border border-gray-500 rounded-md flex justify-between px-4 py-2"
               >
                 <div className="flex flex-col">
                   <h2 className="font-bold">{req.full_name_1}</h2>
-                  <p className="text-[0.8rem]">@{req.username_1}</p>
+                  <p className="text-[0.8rem] text-[#28dfff]">
+                    @{req.username_1}
+                  </p>
                 </div>
                 <div className="flex gap-4">
                   <button onClick={() => updateFriendRequest(req.id)}>
@@ -120,54 +126,68 @@ export default function page() {
               </div>
             ))
           ) : (
-            <div className="bg-[#00000086] rounded-md flex justify-between px-4 py-2">
+            <div className="flex justify-between py-2">
               <div className="flex flex-col ">
-                <h2 className="font-bold text-white">No requests pending</h2>
+                <h2 className="">No requests pending</h2>
               </div>
             </div>
           )}
         </div>
 
-        <div className="rounded-xl">
-          <h1 className="text-[#ffffff] text-[1.5rem] font-bold">Friends</h1>
-          {friends.length > 0 ? (
-            friends.map((friend) => (
-              <div
-                key={friend.id}
-                className="bg-[#00000086] rounded-md flex justify-between px-4 py-2"
-              >
-                <div className="flex flex-col  text-white">
-                  {friend.initiated_by === userId ? (
-                    <h2 className="font-bold">{friend.full_name_2}</h2>
-                  ) : (
-                    <h2 className="font-bold ">{friend.full_name_1}</h2>
-                  )}
+        <div className="rounded-xl lg:order-1 lg:flex-[1.5]">
+          <h1 className=" text-[1.5rem] font-bold">Friends</h1>
+          <div className="flex flex-col gap-2">
+            {friends.length > 0 ? (
+              friends.map((friend) => (
+                <div
+                  key={friend.id}
+                  className="bg-gray-100 rounded-md flex justify-between px-4 py-2"
+                >
+                  <div className="flex flex-col">
+                    {friend.initiated_by === userId ? (
+                      <h2 className="font-bold">{friend.full_name_2}</h2>
+                    ) : (
+                      <h2 className="font-bold ">{friend.full_name_1}</h2>
+                    )}
 
-                  {friend.initiated_by === userId ? (
-                    <p className="text-[0.8rem] text-[#717171]">
-                      @{friend.username_2}
-                    </p>
-                  ) : (
-                    <p className="text-[0.8rem] text-[#9f9f9f]">
-                      @{friend.username_1}
-                    </p>
-                  )}
+                    {friend.initiated_by === userId ? (
+                      <p className="text-[0.8rem] text-[#009db9] ">
+                        @{friend.username_2}
+                      </p>
+                    ) : (
+                      <p className="text-[0.8rem] text-[#009db9]">
+                        @{friend.username_1}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Link
+                      href={
+                        friend.initiated_by === userId
+                          ? `/profile/${friend.username_2}`
+                          : `/profile/${friend.username_1}`
+                      }
+                      className="bg-gray-200 rounded-md px-4 py-1"
+                    >
+                      View
+                    </Link>
+                    <button
+                      onClick={() => deleteFriendRequest(friend.id)}
+                      className="bg-red-400 rounded-md px-4 py-1"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-                <div className="flex gap-4 text-white">
-                  <button>Message</button>
-                  <button onClick={() => deleteFriendRequest(friend.id)}>
-                    Remove
-                  </button>
+              ))
+            ) : (
+              <div className="bg-gray-100 rounded-md flex justify-between">
+                <div className="flex flex-col px-4 py-4">
+                  <h2 className="">Start adding friends!</h2>
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="bg-[#00000086] rounded-md flex justify-between px-4 py-2">
-              <div className="flex flex-col text-white">
-                <h2 className="font-bold">Start adding friends!</h2>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </section>
     </section>

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
 import AuthStateContext from "@/context/AuthStateContext"
-import { useFriendships } from "@/hooks/useFriendships"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const Navbar = () => {
   const { isLoggedIn, setIsLoggedIn, user, setUser, userId, setUserId } =
@@ -26,8 +26,8 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="text-gray-300 border-gray-200">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className=" text-[#c6c6c6] sm:text-xl ">
+      <div className="flex flex-wrap items-center justify-between mx-auto p-4 bg-[#0000008f]">
         <Link
           href="/"
           className="flex items-center space-x-3 border p-2 rounded-sm"
@@ -42,21 +42,12 @@ const Navbar = () => {
                 href={`/profile/${user}`}
                 className="block rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
               >
-                Profile
+                {user}
               </Link>
-              <Link
-                href={`/dashboard`}
-                className="block rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
-              >
-                Dashboard
-              </Link>
-
-              <Link
-                href={`/friends`}
-                className="block rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
-              >
-                Friends
-              </Link>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
 
               <Button onClick={signOut} variant="destructive">
                 Sign out

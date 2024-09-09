@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 
 type Friendship = {
@@ -13,7 +12,7 @@ type Friendship = {
   initiated_by: string
 }
 
-export function useFriendships(userId: string) {
+export function useFriendshipsListener(userId: string) {
   const [friendships, setFriendships] = useState<Friendship[]>([])
   const supabaseBrowserClient = getSupabaseBrowserClient()
 

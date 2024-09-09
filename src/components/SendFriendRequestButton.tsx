@@ -1,5 +1,7 @@
 "use client"
 
+import { useFriendshipsListener } from "@/hooks/useFriendshipsListener"
+import useGetFriends from "@/utils/getFriends"
 import sendFriendRequest from "@/utils/sendFriendRequest"
 import React from "react"
 
@@ -20,6 +22,15 @@ const SendFriendRequestButton: React.FC<SendFriendRequestButtonProps> = ({
   currentUserFullname,
   currentProfileFullname,
 }) => {
+  const fetchFriendshipsData =
+    currentUserId && useFriendshipsListener(currentUserId)
+  const friendList =
+    currentUserId && useGetFriends(currentUserId, fetchFriendshipsData, "all")
+
+  const friendDetails = friendList?.find(
+    (friend: any) => friend.friend === currentProfile
+  )
+
   function handleAddFriend() {
     if (!currentProfile) {
       return
@@ -33,14 +44,39 @@ const SendFriendRequestButton: React.FC<SendFriendRequestButtonProps> = ({
       currentProfileFullname!
     )
   }
-  return (
-    <button
-      onClick={handleAddFriend}
-      className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-    >
-      Add Friend
-    </button>
-  )
+
+  let buttonContent
+  switch (friendDetails?.status) {
+    case "pending":
+      buttonContent = (
+        <button disabled className="bg-gray-400 text-white py-2 px-4 rounded">
+          Pending
+        </button>
+      )
+      break
+    case "accepted":
+      buttonContent = (
+        <button
+          onClick={() => console.log("message")}
+          className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+        >
+          Message
+        </button>
+      )
+      break
+    default:
+      buttonContent = (
+        <button
+          onClick={handleAddFriend}
+          className="bg-[#38067a] hover:bg-[#5605c0] text-white py-2 px-4 rounded"
+        >
+          Add Friend
+        </button>
+      )
+      break
+  }
+
+  return buttonContent
 }
 
 export default SendFriendRequestButton
