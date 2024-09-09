@@ -63,7 +63,7 @@ export default function EventForm({
   const [message, setMessage] = useState("")
   const router = useRouter()
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const friendList = useGetFriends(userId, fetchFriendshipsData)
+  const friendList = useGetFriends(userId, fetchFriendshipsData, "accepted")
   const [eventData, setEventData] = useState<z.infer<typeof formSchema> | null>(
     null
   )

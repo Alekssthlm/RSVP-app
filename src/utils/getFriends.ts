@@ -1,6 +1,12 @@
-export default function useGetFriends(userId: string, friendshipData: any) {
+export default function useGetFriends(
+  userId: string,
+  friendshipData: any,
+  status: string
+) {
   const confirmedFriends = friendshipData.filter((friendship: any) => {
-    return friendship.status === "accepted"
+    if (status === "all") return friendship
+
+    return friendship.status === status
   })
   const friendsList = confirmedFriends.map((friend: any) => {
     if (friend.user_id_1 === userId) {

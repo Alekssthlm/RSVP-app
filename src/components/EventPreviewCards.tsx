@@ -44,21 +44,21 @@ export default function EventPreviewCards({
                 ? `/dashboard/my-events/${event.id}`
                 : `/dashboard/invitations/${event.id}`
             }
-            className="bg-[#00000086] rounded-[10px] relative overflow-hidden"
+            className="bg-[#00000086] aspect-video rounded-[10px] relative overflow-hidden"
           >
-            <div className="h-[180px] w-auto bg-[#535353]"></div>
-            <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-end px-4 py-2 bg-gradient-to-b from-transparent from-10% via-[#000000b4] via-90% to-[#000000f2]">
+            <div className="h-[100%] w-auto bg-[#535353]"></div>
+            <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-end px-4 py-2 bg-gradient-to-b from-transparent from-10% via-[#000000b4] via-70% to-[#000000f2]">
+              {!isMyEvents && (
+                <p className="border border-gray-500 bg-[#2f2f2fcf] rounded-md px-4 py-1 text-[0.8rem] self-end absolute top-4 right-4">
+                  {eventInvitationData[0]?.status || "Loading..."}
+                </p>
+              )}
               <h2>{event.title}</h2>
               <p className="text-[0.8rem]">{event.location}</p>
               <div className="flex justify-between gap-2 text-[0.8rem]">
                 <div>
                   <p>{formattedStartTime}</p>
                 </div>
-                {!isMyEvents && (
-                  <p className="border border-gray-500 rounded-md px-4 py-1 text-[0.8rem]">
-                    {eventInvitationData[0]?.status || "Loading..."}
-                  </p>
-                )}
               </div>
             </div>
           </Link>

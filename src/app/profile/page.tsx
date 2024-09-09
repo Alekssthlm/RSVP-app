@@ -1,5 +1,4 @@
 import getUserData from "@/actions/getUserData"
-import { getUserImage } from "@/actions/getUserImage"
 import { redirect } from "next/navigation"
 
 const Profile = async () => {
