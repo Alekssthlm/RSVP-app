@@ -30,7 +30,7 @@ export default function page() {
                   Invitations
                 </h1>
               </div>
-              <div className="grid sm:grid-cols-2 sm:gap-2">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3  sm:gap-2">
                 <EventPreviewCards
                   eventType={otherEvents}
                   isMyEvents={false}
