@@ -21,6 +21,13 @@ export default function EventPreviewCards({
   isMyEvents,
   userId,
 }: EventPreviewCardProps) {
+  const backgroundImage = [
+    "/confetti-1.jpg",
+    "/confetti-2.jpg",
+    "/confetti-3.jpg",
+  ]
+  const randomImage =
+    backgroundImage[Math.floor(Math.random() * backgroundImage.length)]
   return (
     <>
       {eventType.map((event) => {
@@ -41,12 +48,13 @@ export default function EventPreviewCards({
             key={event.id}
             href={
               isMyEvents
-                ? `/dashboard/my-events/${event.id}`
-                : `/dashboard/invitations/${event.id}`
+                ? `/dashboard/my-events/${event.id}?bg=${randomImage}`
+                : `/dashboard/invitations/${event.id}?bg=${randomImage}`
             }
             className="bg-[#00000086] aspect-video rounded-[10px] relative overflow-hidden"
           >
-            <div className="h-[100%] w-auto bg-[#535353]"></div>
+            {/* <div className="h-[100%] w-auto bg-[#535353]"></div> */}
+            <img src={randomImage} alt="" />
             <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-end px-4 py-2 bg-gradient-to-b from-transparent from-10% via-[#000000b4] via-70% to-[#000000f2]">
               {!isMyEvents && (
                 <p className="border border-gray-500 bg-[#2f2f2fcf] rounded-md px-4 py-1 text-[0.8rem] self-end absolute top-4 right-4">

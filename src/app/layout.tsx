@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar"
 import AuthProvider from "@/providers/AuthProvider"
 import getUserData from "@/actions/getUserData"
 import Sidebar from "@/components/Sidebar"
+import { getUserImage } from "@/actions/getUserImage"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,19 +21,22 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const user = await getUserData()
+  const AVATAR = "/profile-image.png"
+  const public_image_url =
+    (user && (await getUserImage(user.profile_image))) || AVATAR
 
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col h-dvh bg-gradient-to-br from-green-400 via-[#004468] via-0% to-black`}
+        className={`${inter.className} flex flex-col h-dvh bg-[#000000fe] max-w-[70rem] mx-auto `}
       >
         <AuthProvider>
-          <header className="h-[5rem]">
-            <Navbar />
+          <header>
+            <Navbar user={user} avatar_url={public_image_url} />
           </header>
           <div className="flex flex-grow h-full overflow-hidden">
-            {user && <Sidebar />}
-            <main className="flex-[4] flex flex-col overflow-y-auto relative bg-[#0000008f] p-4">
+            {user && <Sidebar avatar_url={public_image_url} />}
+            <main className="flex-[3] flex flex-col overflow-y-auto relative md:p-2 ">
               {children}
             </main>
           </div>
@@ -40,4 +44,8 @@ export default async function RootLayout({
       </body>
     </html>
   )
+}
+
+{
+  /* bg-gradient-to-br from-green-400 via-[#009aee] via-0% to-black */
 }

@@ -2,8 +2,8 @@ import { Spinner } from "@/components/ui/spinner"
 
 export default function loading() {
   return (
-    <div className="  absolute top-0 left-0 right-0 bottom-0  flex justify-center items-center z-10">
-      <Spinner className="text-[#ffffff]" size={"large"} show={true} />
+    <div className="bg-[#011b2988] flex-grow flex justify-center items-center z-10 md:rounded-xl">
+      <Spinner className="text-[rgb(255,255,255)]" size={"large"} show={true} />
     </div>
   )
 }

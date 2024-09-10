@@ -3,6 +3,17 @@
 import { Input } from "@/components/ui/input"
 import AuthStateContext from "@/context/AuthStateContext"
 import { useFriendshipsListener } from "@/hooks/useFriendshipsListener"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 import { FriendRequest, SearchResult } from "@/types/app"
 import filterFriendshipData from "@/utils/filterFriendshipData"
@@ -11,6 +22,7 @@ import {
   updateFriendRequest,
   deleteFriendRequest,
 } from "@/utils/handleFriendRequest"
+import { Check, User, X } from "lucide-react"
 import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
 
@@ -68,7 +80,7 @@ export default function page() {
   }, [])
 
   return (
-    <section className="p-2">
+    <section className="p-4 bg-[#011b2988] flex-grow md:rounded-xl">
       <div className="relative max-w-[20rem]">
         <Input
           type="text"
@@ -81,7 +93,7 @@ export default function page() {
           className=""
         />
         <div
-          className={`absolute top-[100%] w-full left-0 bg-blue-400 ${
+          className={`absolute top-[100%] bg-[#011b29] w-full left-0 max-h-[20rem] overflow-auto flex flex-col gap-2 p-2 ${
             !showSearch && "hidden"
           }`}
         >
@@ -91,17 +103,21 @@ export default function page() {
               key={result?.id}
               datatype="search-result"
             >
-              <div className="bg-gray-50 hover:bg-gray-200">
-                <h3>{result?.full_name}</h3>
-                <p>{result?.username}</p>
+              <div className=" bg-[#00000086] border border-gray-500 rounded-md p-2">
+                <h2 className="text-white text-[0.8rem]">
+                  {result?.full_name}
+                </h2>
+                <p className="text-[0.8rem] text-[#009db9]">
+                  @{result?.username}
+                </p>
               </div>
             </a>
           ))}
         </div>
       </div>
 
-      <section className="flex flex-col lg:flex-row gap-6 py-4 text-white">
-        <div className="rounded-xl lg:order-2 lg:flex-[1]">
+      <section className="flex flex-col gap-6 py-4 text-white">
+        <div className="rounded-xl ">
           <h1 className=" text-[1.5rem] font-bold">Invites</h1>
           {friendRequests.length > 0 ? (
             friendRequests.map((req) => (
@@ -115,12 +131,18 @@ export default function page() {
                     @{req.username_1}
                   </p>
                 </div>
-                <div className="flex gap-4">
-                  <button onClick={() => updateFriendRequest(req.id)}>
-                    Accept
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => updateFriendRequest(req.id)}
+                    className="rounded-full bg-gray-700 p-2 self-center"
+                  >
+                    <Check size={15} />
                   </button>
-                  <button onClick={() => deleteFriendRequest(req.id)}>
-                    Decline
+                  <button
+                    onClick={() => deleteFriendRequest(req.id)}
+                    className="text-red-600 rounded-full border-2 border-gray-600 p-2 self-center"
+                  >
+                    <X size={15} />
                   </button>
                 </div>
               </div>
@@ -128,20 +150,20 @@ export default function page() {
           ) : (
             <div className="flex justify-between py-2">
               <div className="flex flex-col ">
-                <h2 className="">No requests pending</h2>
+                <h2 className="text-gray-300">No requests pending</h2>
               </div>
             </div>
           )}
         </div>
 
-        <div className="rounded-xl lg:order-1 lg:flex-[1.5]">
+        <div className="rounded-xl ">
           <h1 className=" text-[1.5rem] font-bold">Friends</h1>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 py-2">
             {friends.length > 0 ? (
               friends.map((friend) => (
                 <div
                   key={friend.id}
-                  className="bg-gray-100 rounded-md flex justify-between px-4 py-2"
+                  className="bg-[#00000086] text-white border border-gray-500 rounded-md flex justify-between px-4 py-2"
                 >
                   <div className="flex flex-col">
                     {friend.initiated_by === userId ? (
@@ -160,28 +182,48 @@ export default function page() {
                       </p>
                     )}
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     <Link
                       href={
                         friend.initiated_by === userId
                           ? `/profile/${friend.username_2}`
                           : `/profile/${friend.username_1}`
                       }
-                      className="bg-gray-200 rounded-md px-4 py-1"
+                      className="rounded-full bg-gray-700 p-2 self-center"
                     >
-                      View
+                      <User size={18} />
                     </Link>
-                    <button
-                      onClick={() => deleteFriendRequest(friend.id)}
-                      className="bg-red-400 rounded-md px-4 py-1"
-                    >
-                      Remove
-                    </button>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <button className="text-red-600 rounded-full border-2 border-gray-600 p-2 self-center">
+                          <X size={18} />
+                        </button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="bg-black">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle className="text-white">
+                            Are you sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will permanently remove your friendship.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => deleteFriendRequest(friend.id)}
+                          >
+                            Remove
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="bg-gray-100 rounded-md flex justify-between">
+              <div className="bg-[#00000086] text-white border border-gray-500 rounded-md flex justify-between">
                 <div className="flex flex-col px-4 py-4">
                   <h2 className="">Start adding friends!</h2>
                 </div>

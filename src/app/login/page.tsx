@@ -1,6 +1,6 @@
 "use client"
 
-import { use, useContext } from "react"
+import { use, useContext, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { set, useForm } from "react-hook-form"
 import {
@@ -20,10 +20,12 @@ import { Provider } from "@supabase/supabase-js"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
 import AuthStateContext from "@/context/AuthStateContext"
+import CustomFormInput from "@/components/CustomFormInput"
 
 export default function LoginPage(this: any) {
   const { isLoggedIn, setIsLoggedIn, setUser, userId, setUserId } =
     useContext(AuthStateContext)
+  const [loginError, setLoginError] = useState("")
   const router = useRouter()
   const supabaseBrowserClient = getSupabaseBrowserClient()
 
@@ -58,6 +60,7 @@ export default function LoginPage(this: any) {
     const { error, data } = JSON.parse(response)
     if (error) {
       console.error(error)
+      setLoginError("Invalid email or password")
       return
     }
 
@@ -76,45 +79,42 @@ export default function LoginPage(this: any) {
     })
   }
 
+  function clearError() {
+    if (loginError) {
+      setLoginError("")
+    }
+  }
+
   return (
     <section className="flex justify-center">
-      <div className="flex flex-col w-[50%] max-w-[25rem] gap-4">
+      <div className="flex flex-col w-[50%] max-w-[25rem] gap-2">
         <h1>LOGIN</h1>
-        {/* <Button onClick={socialAuth.bind(this, "github")}>GITHUB</Button> */}
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  {/* <FormLabel>Email</FormLabel> */}
-                  <FormControl>
-                    <Input placeholder="email" {...field} />
-                  </FormControl>
-                  {/* <FormDescription>Please enter your email</FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-4"
+          >
+            <div className="flex flex-col gap-2">
+              <CustomFormInput
+                form={form}
+                name="email"
+                placeholder="Email"
+                onChange={clearError}
+              />
+              <CustomFormInput
+                form={form}
+                name="password"
+                placeholder="Password"
+                type="password"
+                onChange={clearError}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  {/* <FormLabel>Password</FormLabel> */}
-                  <FormControl>
-                    <Input placeholder="password" type="password" {...field} />
-                  </FormControl>
-                  {/* <FormDescription>Min 3 characters</FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit">Submit</Button>
+            <Button
+              type="submit"
+              className={`${loginError && "bg-red-500"}`}
+            >{`${loginError ? loginError : "Submit"}`}</Button>
           </form>
         </Form>
       </div>

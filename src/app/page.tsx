@@ -6,7 +6,7 @@ export default async function Home() {
   if (userData) redirect("/dashboard")
 
   return (
-    <div className="grid place-content-center h-[80vh]">
+    <div className="flex flex-grow text-white justify-center items-center">
       <h1>HOME</h1>
     </div>
   )

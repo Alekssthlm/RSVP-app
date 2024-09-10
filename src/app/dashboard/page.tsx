@@ -16,11 +16,13 @@ export default function page() {
   return (
     <div className="text-white flex flex-grow">
       {!loading && (
-        <div className="p-4 rounded-xl bg-[#00293f6c] flex-grow">
+        <div className="p-4 md:rounded-xl bg-[#011b2988] flex-grow h-full">
           <Tabs defaultValue="invitations" className="flex-grow flex flex-col">
-            <TabsList className="self-center bg-black m-0 mb-8">
-              <TabsTrigger value="invitations">Invitations</TabsTrigger>
-              <TabsTrigger value="my_events" className="">
+            <TabsList className="self-center bg-black m-0 mb-4 w-full">
+              <TabsTrigger value="invitations" className="flex-1">
+                Invitations
+              </TabsTrigger>
+              <TabsTrigger value="my_events" className="flex-1">
                 My events
               </TabsTrigger>
             </TabsList>
@@ -30,7 +32,7 @@ export default function page() {
                   Invitations
                 </h1>
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3  sm:gap-2">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <EventPreviewCards
                   eventType={otherEvents}
                   isMyEvents={false}

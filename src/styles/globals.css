@@ -12,7 +12,7 @@ body {
 
 .mask1 {
   -webkit-mask-image: linear-gradient(black, transparent);
-  mask-image: linear-gradient(black, transparent);
+  mask-image: linear-gradient(black 70%, transparent);
 }
 
 @layer base {

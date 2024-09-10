@@ -118,7 +118,8 @@ export default function EventForm({
   // UPDATE MAP URL WHEN LOCATION CHANGES
   useEffect(() => {
     if (iframeRef.current) {
-      iframeRef.current.src = mapUrl || process.env.DEFAULT_MAP_LOCATION!
+      iframeRef.current.src =
+        mapUrl || process.env.NEXT_PUBLIC_DEFAULT_MAP_LOCATION!
     }
   }, [mapUrl])
 
@@ -152,7 +153,7 @@ export default function EventForm({
   }
 
   return (
-    <section className="flex flex-col gap-4 text-white bg-[#00000086] rounded-md p-2 ">
+    <section className="flex flex-col gap-4 text-white bg-[#00000086] md:rounded-md p-2 ">
       <button
         className="self-start text-[0.7rem]"
         onClick={() => router.push("/dashboard")}
@@ -160,7 +161,7 @@ export default function EventForm({
         ← BACK
       </button>
       <div>
-        <h1>New event</h1>
+        <h1>{mode === "edit" ? "Edit Event" : "Create Event"}</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <CustomFormInput form={form} title="Title" name="title" />

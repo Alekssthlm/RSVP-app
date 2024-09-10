@@ -42,6 +42,7 @@ import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
 import { useUserProfileImage } from "@/hooks/useUserProfileImage"
 import { deleteUserImage } from "@/utils/deleteUserImage"
+import { MinusCircle } from "lucide-react"
 
 type CurrentProfile = {
   id: string
@@ -176,9 +177,9 @@ export function EditProfileModal({
           Edit Profile
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-black">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle className="text-white">Edit profile</DialogTitle>
           <DialogDescription>
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
@@ -186,32 +187,34 @@ export function EditProfileModal({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="">
             <div className="flex justify-center">
-              <img
-                src={public_image_url}
-                className="w-[100px] h-[100px] bg-gray-500 object-cover rounded-full"
-                alt={""}
-              />
-              {profile_image && (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="outline">delete</Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This will permanently delete your profile image.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleDeleteImage}>
-                        Continue
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              )}
+              <div className="w-[100px] h-[100px] relative">
+                <img
+                  src={public_image_url}
+                  className="w-[100px] h-[100px] bg-gray-500 object-cover rounded-full"
+                  alt={""}
+                />
+                {profile_image && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <MinusCircle className="absolute text-white bg-red-700 rounded-full bottom-0 right-0 cursor-pointer" />
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will permanently delete your profile image.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDeleteImage}>
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+              </div>
             </div>
             <div className="grid gap-4 py-4">
               <FormField
@@ -219,7 +222,7 @@ export function EditProfileModal({
                 name="full_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel className="text-white">Name</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -233,7 +236,7 @@ export function EditProfileModal({
                   name="bio"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>Bio</FormLabel>
+                      <FormLabel className="text-white">Bio</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder=""
@@ -260,7 +263,7 @@ export function EditProfileModal({
                 name="image"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Profile Image</FormLabel>
+                    <FormLabel className="text-white">Profile Image</FormLabel>
                     <FormDescription>
                       Upload or change your profile image.
                     </FormDescription>

@@ -49,8 +49,8 @@ export default async function Profile({
   }
 
   return (
-    <div className="container flex justify-center flex-grow bg-[#5454544b] py-8 rounded-xl">
-      <div className=" flex justify-center items-center shadow rounded-lg p-6 max-w-[40rem] flex-grow">
+    <div className="container flex justify-center flex-grow bg-[#011b2988] py-8 md:rounded-xl">
+      <div className=" flex justify-center items-center  rounded-lg p-6 max-w-[40rem] flex-grow">
         <div className="flex flex-col items-center gap-8">
           <div className="w-[30vmin] h-[30vmin] max-w-[15rem] max-h-[15rem]">
             <Image

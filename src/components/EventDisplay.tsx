@@ -1,6 +1,6 @@
 "use client"
 import { useContext, useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { format } from "date-fns"
 import { CalendarDays } from "lucide-react"
 import Link from "next/link"
@@ -46,6 +46,8 @@ export default function EventDisplay({
   const [isEditing, setIsEditing] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const bg = searchParams.get("bg")
 
   useEffect(() => {
     const testMaskSupport = () => {
@@ -82,29 +84,32 @@ export default function EventDisplay({
   }
   return (
     <>
-      <section className="flex flex-col gap-4 text-white bg-[#00000086] rounded-xl flex-1">
-        <div className="relative flex flex-col flex-1 rounded-xl">
+      <section className="flex flex-col gap-4 text-white bg-[#011b2988] md:rounded-xl flex-1  ">
+        <div className="relative flex flex-col flex-1">
           <Link
             href={"/dashboard"}
-            className="text-white absolute top-2 left-2 z-10"
+            className="text-white absolute top-2 left-2 z-10 self-start text-[0.7rem]"
           >
             ← BACK
           </Link>
           <div
-            className={`h-[15rem] relative z-0 rounded-xl ${
+            className={`h-[15rem] relative z-0 md:rounded-xl ${
               supportsMasking ? "mask1" : ""
             } `}
           >
             <img
-              src="/image-placeholder.webp"
+              src={bg || "/image-placeholder.webp"}
               alt="Random"
-              className="w-full h-full object-cover relative z-0 select-none"
+              className="w-full h-full object-cover relative z-0 select-none "
             />
+            <div
+              className={`absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-end px-4 py-2 bg-gradient-to-b from-transparent from-10% via-[#000000b4] via-70% to-[#000000f2] `}
+            ></div>
           </div>
           <div
             className={`${
               supportsMasking ? "mt-[-4rem]" : "mt-[0rem]"
-            } bg-gradient-to-b from-transparent from-0% via-[#000000b4] via-20% to-[#000000f2] py-4 flex flex-col gap-4 px-4 flex-1 rounded-b-xl`}
+            } bg-gradient-to-b from-transparent from-0% via-[#000000b4] via-5% to-[#000000f2] py-4 flex flex-col gap-4 px-4 flex-1 rounded-b-xl`}
           >
             <div className="z-10 flex justify-between ">
               <div>
