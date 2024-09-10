@@ -22,10 +22,8 @@ const SendFriendRequestButton: React.FC<SendFriendRequestButtonProps> = ({
   currentUserFullname,
   currentProfileFullname,
 }) => {
-  const fetchFriendshipsData =
-    currentUserId && useFriendshipsListener(currentUserId)
-  const friendList =
-    currentUserId && useGetFriends(currentUserId, fetchFriendshipsData, "all")
+  const fetchFriendshipsData = useFriendshipsListener(currentUserId!)
+  const friendList = useGetFriends(currentUserId!, fetchFriendshipsData, "all")
 
   const friendDetails = friendList?.find(
     (friend: any) => friend.friend === currentProfile

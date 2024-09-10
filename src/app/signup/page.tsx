@@ -1,31 +1,27 @@
 "use client"
 
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import {
   FormField,
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
   Form,
 } from "@/components/ui/form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Input } from "@/components/ui/input"
 import { registerWithEmailAndPassword } from "@/actions/supabase"
 import { Provider } from "@supabase/supabase-js"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
-import AuthStateContext from "@/context/AuthStateContext"
 import CustomFormInput from "@/components/CustomFormInput"
 import { Checkbox } from "@/components/ui/checkbox"
 import TermsAndConditions from "@/components/TermsAndConditions"
 
 export default function SignUpPage(this: any) {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthStateContext)
   const [userControlErrors, setUserControlErrors] = useState<{
     email?: string
     username?: string
@@ -106,16 +102,6 @@ export default function SignUpPage(this: any) {
       setUserControlErrors(error)
       return
     }
-  }
-
-  // LOGIN WITH GITHUB AND OTHER SOCIAL PROVIDERS
-  async function socialAuth(provider: Provider) {
-    const response = await supabaseBrowserClient.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    })
   }
 
   function clearEmailErrors() {

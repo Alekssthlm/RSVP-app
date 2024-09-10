@@ -6,11 +6,14 @@ export function useUserProfileImage(imagePath: string) {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
-  if (!imagePath) {
-    return { imageUrl: null, loading: false, error: "Image path is required" }
-  }
-
   useEffect(() => {
+    if (!imagePath) {
+      setImageUrl(null)
+      setLoading(false)
+      setError("Image path is required")
+      return
+    }
+
     const fetchImage = async () => {
       setLoading(true)
       setError(null)

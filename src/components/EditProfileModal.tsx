@@ -181,7 +181,7 @@ export function EditProfileModal({
         <DialogHeader>
           <DialogTitle className="text-white">Edit profile</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

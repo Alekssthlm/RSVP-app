@@ -26,9 +26,8 @@ import { Check, User, X } from "lucide-react"
 import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
 
-export default function page() {
-  const { isLoggedIn, setIsLoggedIn, user, setUser, userId, setUserId } =
-    useContext(AuthStateContext)
+export default function Page() {
+  const { userId } = useContext(AuthStateContext)
   const [inputValue, setInputValue] = useState("")
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [showSearch, setShowSearch] = useState(false)

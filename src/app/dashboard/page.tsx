@@ -1,15 +1,13 @@
 "use client"
-import { Spinner } from "@/components/ui/spinner"
 import AuthStateContext from "@/context/AuthStateContext"
 import { useEventsPreviewListener } from "@/hooks/useEventsListener"
-import { format } from "date-fns"
 import Link from "next/link"
-import { use, useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Plus } from "lucide-react"
 import EventPreviewCards from "@/components/EventPreviewCards"
 
-export default function page() {
+export default function Page() {
   const { userId } = useContext(AuthStateContext)
   const { myEvents, otherEvents, loading } = useEventsPreviewListener(userId)
 
