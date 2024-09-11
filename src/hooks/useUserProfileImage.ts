@@ -19,17 +19,9 @@ export function useUserProfileImage(imagePath: string) {
       setError(null)
       try {
         const supabase = getSupabaseBrowserClient()
-        const { data, error } = supabase.storage
-          .from("Images")
-          .getPublicUrl(imagePath)
+        const { data } = supabase.storage.from("Images").getPublicUrl(imagePath)
 
-        if (error) {
-          console.error("Error getting public URL:", error)
-          setError("Failed to fetch image URL")
-          setImageUrl(null)
-        } else {
-          setImageUrl(data.publicUrl)
-        }
+        setImageUrl(data.publicUrl)
       } catch (err) {
         console.error("Unexpected error:", err)
         setError("Unexpected error occurred")
