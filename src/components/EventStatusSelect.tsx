@@ -18,7 +18,7 @@ export default function EventStatusSelect({
   userId: string
   event_id: string
 }) {
-  const invitationData = useInvitationData(event_id, userId)
+  const invitationData = useInvitationData(event_id, userId, true)
   const router = useRouter()
 
   async function handleStatusChange(value: string) {

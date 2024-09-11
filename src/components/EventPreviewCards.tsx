@@ -59,7 +59,7 @@ function EventTile({ event, isMyEvents, userId, randomImage }: EventTileProps) {
     "dd/MMM/yy HH:mm"
   )
 
-  const invitationData = useInvitationData(event.id, userId!)
+  const invitationData = useInvitationData(event.id, userId!, isMyEvents)
 
   return (
     <Link

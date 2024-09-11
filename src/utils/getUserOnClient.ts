@@ -1,6 +1,7 @@
-import { supabaseBrowserClient } from "./supabaseClient"
+import { getSupabaseBrowserClient } from "./supabaseClient"
 
 export default async function getUserOnClient() {
+  const supabaseBrowserClient = getSupabaseBrowserClient()
   await supabaseBrowserClient.auth.refreshSession()
   const {
     data: { session },

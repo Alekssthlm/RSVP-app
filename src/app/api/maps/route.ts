@@ -1,7 +1,7 @@
 // app/api/maps/[address]/route.js (Next.js 13+)
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export async function GET(request: { url: string | URL }) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
 
   const address = searchParams.get("address")

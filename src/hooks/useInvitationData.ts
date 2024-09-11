@@ -1,5 +1,6 @@
 "use client"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
+import { set } from "date-fns"
 import { useState, useEffect } from "react"
 
 type Invitation = {
@@ -12,11 +13,18 @@ type Invitation = {
   profile_image: string
 }
 
-export function useInvitationData(event_id: string, userId: string) {
+export function useInvitationData(
+  event_id: string,
+  userId: string,
+  isMyEvents?: boolean
+) {
   const [invitationData, setInvitationData] = useState<Invitation[]>([])
   const supabaseBrowserClient = getSupabaseBrowserClient()
 
   useEffect(() => {
+    if (!userId) {
+      return
+    }
     let channel: ReturnType<(typeof supabaseBrowserClient)["channel"]>
 
     async function fetchInvitationData() {
