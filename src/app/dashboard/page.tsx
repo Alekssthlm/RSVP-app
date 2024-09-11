@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <div className="text-white flex flex-grow">
       {!loading && (
-        <div className="p-4 md:rounded-xl bg-[#011b2988] flex-grow h-full">
+        <div className="p-4 flex-grow h-full">
           <Tabs defaultValue="invitations" className="flex-grow flex flex-col">
             <TabsList className="self-center bg-black m-0 mb-4 w-full">
               <TabsTrigger value="invitations" className="flex-1">
@@ -30,7 +30,7 @@ export default function Page() {
                   Invitations
                 </h1>
               </div>
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <EventPreviewCards
                   eventType={otherEvents}
                   isMyEvents={false}
@@ -44,7 +44,7 @@ export default function Page() {
                   My Events
                 </h1>
               </div>
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <EventPreviewCards eventType={myEvents} isMyEvents={true} />
                 <Link
                   href="/dashboard/create-event"

@@ -36,7 +36,7 @@ export default function EventStatusSelect({
         }
         onValueChange={handleStatusChange}
       >
-        <SelectTrigger className="flex gap-2 bg-black border border-gray-500 rounded-md px-4 py-1 text-[0.8rem] self-start">
+        <SelectTrigger className="flex gap-2 bg-black border border-gray-500 rounded-md px-4 py-1 text-[0.8rem] ">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

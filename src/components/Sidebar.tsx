@@ -26,8 +26,8 @@ export default function Sidebar({ avatar_url }: { avatar_url: string }) {
     router.refresh()
   }
   return (
-    <aside className="flex-1 hidden md:block text-white py-2 ">
-      <nav className="flex flex-col h-full gap-8 bg-[#00436788] rounded-xl pt-4">
+    <aside className="flex-1 hidden md:block text-white ">
+      <nav className="flex flex-col h-full gap-8 bg-[#003047]  pt-4">
         <div className="flex gap-4 px-4 items-center">
           <Avatar>
             <AvatarImage src={avatar_url} width={40} height={40} />

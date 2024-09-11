@@ -56,7 +56,7 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
     )
   }
   return (
-    <nav className=" text-[#c6c6c6] sm:text-xl h-[4rem] bg-[#011b2988] md:hidden">
+    <nav className=" text-[#c6c6c6] sm:text-xl h-[4rem] md:hidden">
       <div className="flex flex-wrap items-center justify-between mx-auto p-4 ">
         <div>
           <div className="">
@@ -139,7 +139,7 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
         <Link href="/" className="text-xl">
           RSVP
         </Link>
-        <Link href="/signup">
+        <Link href={`/profile/${user.username}`}>
           <Avatar>
             <AvatarImage src={avatar_url} />
             <AvatarFallback className="bg-gray-700">

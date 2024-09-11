@@ -153,17 +153,22 @@ export default function EventForm({
   }
 
   return (
-    <section className="flex flex-col gap-4 text-white bg-[#00000086] md:rounded-md p-2 ">
+    <section className="flex flex-col gap-4 text-white  md:rounded-md p-2 ">
       <button
-        className="self-start text-[0.7rem]"
+        className="self-start text-sm"
         onClick={() => router.push("/dashboard")}
       >
         ← BACK
       </button>
-      <div>
-        <h1>{mode === "edit" ? "Edit Event" : "Create Event"}</h1>
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold">
+          {mode === "edit" ? "Edit Event" : "Create Event"}
+        </h1>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-4 pb-4"
+          >
             <CustomFormInput form={form} title="Title" name="title" />
             <FormField
               control={form.control}

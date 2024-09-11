@@ -28,7 +28,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col h-dvh bg-[#000000fe] max-w-[70rem] mx-auto `}
+        className={`${inter.className} flex flex-col h-dvh bg-[#011017] mx-auto shadow-lg shadow-[#5f5e5e]`}
       >
         <AuthProvider>
           <header>
@@ -36,7 +36,7 @@ export default async function RootLayout({
           </header>
           <div className="flex flex-grow h-full overflow-hidden">
             {user && <Sidebar avatar_url={public_image_url} />}
-            <main className="flex-[3] flex flex-col overflow-y-auto relative md:p-2 ">
+            <main className="flex-[3] flex flex-col overflow-y-auto relative">
               {children}
             </main>
           </div>

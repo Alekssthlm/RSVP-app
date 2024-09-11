@@ -75,7 +75,7 @@ function EventTile({ event, isMyEvents, userId, randomImage }: EventTileProps) {
       <img src={randomImage} alt="" />
       <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-end px-4 py-2 bg-gradient-to-b from-transparent from-10% via-[#000000b4] via-70% to-[#000000f2]">
         {!isMyEvents && (
-          <p className="border border-gray-500 bg-[#2f2f2fcf] rounded-md px-4 py-1 text-[0.8rem] self-end absolute top-4 right-4">
+          <p className="border border-gray-500 bg-[#000000] rounded-md px-4 py-1 text-[0.8rem] text-[#28dfff] self-end absolute top-4 right-4">
             {invitationData[0]?.status || "Loading..."}
           </p>
         )}

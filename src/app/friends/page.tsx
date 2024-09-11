@@ -79,7 +79,7 @@ export default function Page() {
   }, [])
 
   return (
-    <section className="p-4 bg-[#011b2988] flex-grow md:rounded-xl">
+    <section className="p-4 flex-grow flex flex-col gap-2">
       <div className="relative max-w-[20rem]">
         <Input
           type="text"
@@ -115,9 +115,9 @@ export default function Page() {
         </div>
       </div>
 
-      <section className="flex flex-col gap-6 py-4 text-white">
-        <div className="rounded-xl ">
-          <h1 className=" text-[1.5rem] font-bold">Invites</h1>
+      <section className="flex flex-col lg:flex-row gap-6 pt-2 text-white lg:flex-1">
+        <div className="rounded-xl lg:order-2 flex-1 lg:bg-[#031d2a] lg:p-2">
+          <h1 className=" text-[1.5rem] font-bold">Requests</h1>
           {friendRequests.length > 0 ? (
             friendRequests.map((req) => (
               <div
@@ -155,7 +155,7 @@ export default function Page() {
           )}
         </div>
 
-        <div className="rounded-xl ">
+        <div className="rounded-xl lg:order-1 flex-1">
           <h1 className=" text-[1.5rem] font-bold">Friends</h1>
           <div className="flex flex-col gap-2 py-2">
             {friends.length > 0 ? (

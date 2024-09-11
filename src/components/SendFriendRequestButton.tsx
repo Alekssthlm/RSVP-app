@@ -53,14 +53,13 @@ const SendFriendRequestButton: React.FC<SendFriendRequestButtonProps> = ({
       )
       break
     case "accepted":
-      buttonContent = (
-        <button
-          onClick={() => console.log("message")}
-          className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
-        >
-          Message
-        </button>
-      )
+      buttonContent = null
+      // <button
+      //   onClick={() => console.log("message")}
+      //   className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+      // >
+      //   Message
+      // </button>
       break
     default:
       buttonContent = (

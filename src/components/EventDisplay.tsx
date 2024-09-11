@@ -86,12 +86,58 @@ export default function EventDisplay({
     <>
       <section className="flex flex-col gap-4 text-white bg-[#011b2988] md:rounded-xl flex-1  ">
         <div className="relative flex flex-col flex-1">
-          <Link
-            href={"/dashboard"}
-            className="text-white absolute top-2 left-2 z-10 self-start text-[0.7rem]"
-          >
-            ← BACK
-          </Link>
+          <div className="flex justify-between absolute top-0 left-0 right-0 z-10 p-2">
+            <Link href={"/dashboard"} className="text-white text-sm">
+              ← BACK
+            </Link>
+            {authIsEventOrganiser ? (
+              <div className="flex gap-2 items-center">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button
+                      onClick={() => setIsDeleting(true)}
+                      className="bg-black  text-white px-4 py-1 border border-red-900 rounded-md p-2"
+                    >
+                      DELETE
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[20rem]">
+                    <DialogHeader>
+                      <DialogTitle>Delete Event</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to delete this event?
+                      </DialogDescription>
+                    </DialogHeader>
+                    {/* any content */}
+                    <DialogFooter className="sm:justify-start">
+                      <DialogClose asChild>
+                        <Button type="button" variant="secondary">
+                          Cancel
+                        </Button>
+                      </DialogClose>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        onClick={handleDelete}
+                      >
+                        Delete
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="bg-black  text-white px-4 py-1 border border-gray-700 rounded-md p-2"
+                >
+                  EDIT
+                </button>
+              </div>
+            ) : (
+              <EventStatusSelect event_id={event_id} userId={authUserId} />
+            )}
+          </div>
+
           <div
             className={`h-[15rem] relative z-0 md:rounded-xl ${
               supportsMasking ? "mask1" : ""
@@ -113,7 +159,7 @@ export default function EventDisplay({
           >
             <div className="z-10 flex justify-between ">
               <div>
-                <h2>{eventData.title}</h2>
+                <h2 className="text-base lg:text-lg">{eventData.title}</h2>
                 <p className="text-[0.8rem]">
                   By{" "}
                   {organiserData && (
@@ -126,62 +172,16 @@ export default function EventDisplay({
                   )}
                 </p>
               </div>
-              {authIsEventOrganiser ? (
-                <div className="flex gap-2 items-center">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <button
-                        onClick={() => setIsDeleting(true)}
-                        className="bg-black  text-white px-4 py-1 border border-red-900 rounded-md p-2"
-                      >
-                        DELETE
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="w-[20rem]">
-                      <DialogHeader>
-                        <DialogTitle>Delete Event</DialogTitle>
-                        <DialogDescription>
-                          Are you sure you want to delete this event?
-                        </DialogDescription>
-                      </DialogHeader>
-                      {/* any content */}
-                      <DialogFooter className="sm:justify-start">
-                        <DialogClose asChild>
-                          <Button type="button" variant="secondary">
-                            Cancel
-                          </Button>
-                        </DialogClose>
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          onClick={handleDelete}
-                        >
-                          Delete
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="bg-black  text-white px-4 py-1 border border-gray-700 rounded-md p-2"
-                  >
-                    EDIT
-                  </button>
-                </div>
-              ) : (
-                <EventStatusSelect event_id={event_id} userId={authUserId} />
-              )}
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-2">
               <CalendarDays className="self-center" />
-              <div>
+              <div className="bg-[#031d2a] py-1 px-4 rounded-md">
                 <span className="text-[0.8rem] text-[#28dfff]">Start</span>
-                <p>{formattedStartTime}</p>
+                <p className="text-sm md:text-lg">{formattedStartTime}</p>
               </div>
-              <div>
+              <div className="bg-[#031d2a] py-1 px-4 rounded-md">
                 <span className="text-[0.8rem] text-[#28dfff]">End</span>
-                <p>{formattedEndTime}</p>
+                <p className="text-sm md:text-lg">{formattedEndTime}</p>
               </div>
             </div>
             <div>
