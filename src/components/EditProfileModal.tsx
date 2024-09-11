@@ -290,7 +290,7 @@ export function EditProfileModal({
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" className="bg-[#28dfff] text-black">
+              <Button type="submit" className="bg-[#28dfff] text-[#022930]">
                 Save changes
               </Button>
             </DialogFooter>

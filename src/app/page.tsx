@@ -38,7 +38,12 @@ export default async function Home() {
           </ul>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
             <Link href="/login" passHref>
-              <Button size="lg">🎉 Get Started</Button>
+              <Button
+                size="lg"
+                className="bg-[#28dfff] font-bold text-[#022930]"
+              >
+                🎉 Get Started
+              </Button>
             </Link>
           </div>
         </div>

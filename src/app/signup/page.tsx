@@ -118,8 +118,8 @@ export default function SignUpPage(this: any) {
   }
 
   return (
-    <section className="flex justify-center">
-      <div className="flex flex-col w-[50%] max-w-[30rem] gap-4 bg-[#012d42] p-4 rounded-md">
+    <section className="flex justify-center pt-8 px-4">
+      <div className="flex flex-col max-w-[30rem] flex-grow gap-4 bg-[#012d42] p-4 rounded-md">
         <h1 className="text-xl text-white font-bold">SIGN UP</h1>
         <Form {...form}>
           <form
