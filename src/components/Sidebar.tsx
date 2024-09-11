@@ -1,6 +1,6 @@
 "use client"
 import AuthStateContext from "@/context/AuthStateContext"
-import { CircleUserRound, LayoutDashboard, Users } from "lucide-react"
+import { CircleUserRound, LayoutDashboard, User, Users } from "lucide-react"
 import Link from "next/link"
 import { useContext } from "react"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
@@ -30,8 +30,15 @@ export default function Sidebar({ avatar_url }: { avatar_url: string }) {
       <nav className="flex flex-col h-full gap-8 bg-[#003047]  pt-4">
         <div className="flex gap-4 px-4 items-center">
           <Avatar>
-            <AvatarImage src={avatar_url} width={40} height={40} />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage
+              src={avatar_url}
+              width={40}
+              height={40}
+              className="bg-gray-500"
+            />
+            <AvatarFallback className="bg-gray-700">
+              <User />
+            </AvatarFallback>
           </Avatar>
           <Link
             href={`/profile/${user}`}

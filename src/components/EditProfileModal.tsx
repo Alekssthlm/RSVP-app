@@ -154,12 +154,10 @@ export function EditProfileModal({
   const handleDeleteImage = async () => {
     const result = await deleteUserImage(profile_image)
     if (result.success) {
-      console.log(result.message)
-
       setIsDialogOpen(false)
       router.refresh()
     } else {
-      console.error(result.message)
+      console.error("Error deleting image")
     }
   }
 
@@ -179,127 +177,126 @@ export function EditProfileModal({
           Edit Profile
         </Button>
       </DialogTrigger>
-      <div>
-        <DialogContent className="sm:max-w-[425px] bg-black ">
-          <DialogHeader>
-            <DialogTitle className="text-white">Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here.
-            </DialogDescription>
-          </DialogHeader>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="">
-              <div className="flex justify-center">
-                <div className="w-[100px] h-[100px] relative">
-                  <img
-                    src={public_image_url}
-                    className="w-[100px] h-[100px] bg-gray-500 object-cover rounded-full"
-                    alt={""}
-                  />
-                  {profile_image && (
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <MinusCircle className="absolute text-white bg-red-700 rounded-full bottom-0 right-0 cursor-pointer" />
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This will permanently delete your profile image.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDeleteImage}>
-                            Continue
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  )}
-                </div>
-              </div>
-              <div className="grid gap-4 py-4">
-                <FormField
-                  control={form.control}
-                  name="full_name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-white">Name</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+
+      <DialogContent className="sm:max-w-[425px] bg-black border-none sm:border-gray-600">
+        <DialogHeader>
+          <DialogTitle className="text-white">Edit profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here.
+          </DialogDescription>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="">
+            <div className="flex justify-center">
+              <div className="w-[100px] h-[100px] relative">
+                <img
+                  src={public_image_url}
+                  className="w-[100px] h-[100px] bg-gray-500 object-cover rounded-full"
+                  alt={""}
                 />
-                <div className="">
-                  <FormField
-                    control={form.control}
-                    name="bio"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel className="text-white">Bio</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder=""
-                            className="text-black"
-                            rows={5}
-                            maxLength={150}
-                            {...field}
-                            onChange={(e) => {
-                              field.onChange(e)
-                              setBioLength(e.target.value.length)
-                            }}
-                          />
-                        </FormControl>
-                        <div className="text-right text-sm text-gray-500">
-                          {maxBioLength - bioLength} characters left
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                {profile_image && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <MinusCircle className="absolute text-white bg-red-700 rounded-full bottom-0 right-0 cursor-pointer" />
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will permanently delete your profile image.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDeleteImage}>
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+              </div>
+            </div>
+            <div className="grid gap-4 py-4">
+              <FormField
+                control={form.control}
+                name="full_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-white">Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="">
                 <FormField
                   control={form.control}
-                  name="image"
+                  name="bio"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-white">
-                        Profile Image
-                      </FormLabel>
-                      <FormDescription>
-                        Upload or change your profile image.
-                      </FormDescription>
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="text-white">Bio</FormLabel>
                       <FormControl>
-                        <Input
-                          type="file"
-                          className="max-w-[18rem]"
-                          accept="image/*"
-                          onChange={(event) => {
-                            field.onChange(event.target.files?.[0] || undefined)
+                        <Textarea
+                          placeholder=""
+                          className="text-black"
+                          rows={4}
+                          maxLength={150}
+                          {...field}
+                          onChange={(e) => {
+                            field.onChange(e)
+                            setBioLength(e.target.value.length)
                           }}
                         />
                       </FormControl>
+                      <div className="text-right text-sm text-gray-500">
+                        {maxBioLength - bioLength} characters left
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-white">Profile Image</FormLabel>
+                    <FormDescription>
+                      Upload or change your profile image.
+                    </FormDescription>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        className="max-w-[18rem]"
+                        accept="image/*"
+                        onChange={(event) => {
+                          field.onChange(event.target.files?.[0] || undefined)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="button" variant="secondary">
-                    Cancel
-                  </Button>
-                </DialogClose>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </div>
+            <DialogFooter className="flex flex-row gap-2">
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type="submit" className="bg-[#28dfff] text-black">
+                Save changes
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
     </Dialog>
   )
 }

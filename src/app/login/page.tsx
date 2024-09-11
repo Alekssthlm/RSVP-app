@@ -1,30 +1,21 @@
 "use client"
 
-import { use, useContext, useState } from "react"
+import { useContext, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { set, useForm } from "react-hook-form"
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-  Form,
-} from "@/components/ui/form"
+import { useForm } from "react-hook-form"
+import { Form } from "@/components/ui/form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Input } from "@/components/ui/input"
 import { loginWithEmailAndPassword } from "@/actions/supabase"
 import { Provider } from "@supabase/supabase-js"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
 import AuthStateContext from "@/context/AuthStateContext"
 import CustomFormInput from "@/components/CustomFormInput"
+import Link from "next/link"
 
 export default function LoginPage(this: any) {
-  const { isLoggedIn, setIsLoggedIn, setUser, userId, setUserId } =
-    useContext(AuthStateContext)
+  const { setIsLoggedIn, setUser, setUserId } = useContext(AuthStateContext)
   const [loginError, setLoginError] = useState("")
   const router = useRouter()
   const supabaseBrowserClient = getSupabaseBrowserClient()
@@ -69,16 +60,6 @@ export default function LoginPage(this: any) {
     }
   }
 
-  // LOGIN WITH GITHUB AND OTHER SOCIAL PROVIDERS
-  async function socialAuth(provider: Provider) {
-    const response = await supabaseBrowserClient.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    })
-  }
-
   function clearError() {
     if (loginError) {
       setLoginError("")
@@ -86,16 +67,15 @@ export default function LoginPage(this: any) {
   }
 
   return (
-    <section className="flex justify-center">
-      <div className="flex flex-col w-[50%] max-w-[25rem] gap-2">
-        <h1>LOGIN</h1>
-
+    <section className="flex justify-center items-center">
+      <div className="flex flex-col w-[50%] max-w-[30rem] gap-4 bg-[#012d42] p-4 rounded-md">
+        <h1 className="text-xl text-white font-bold">LOGIN</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-20"
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-4">
               <CustomFormInput
                 form={form}
                 name="email"
@@ -117,6 +97,13 @@ export default function LoginPage(this: any) {
             >{`${loginError ? loginError : "Submit"}`}</Button>
           </form>
         </Form>
+
+        <h1 className="text-white text-sm self-center">
+          Not registered?{" "}
+          <Link href={"/signup"} className="text-[#28dfff] hover:underline">
+            Create an account here.
+          </Link>
+        </h1>
       </div>
     </section>
   )

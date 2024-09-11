@@ -153,154 +153,156 @@ export default function EventForm({
   }
 
   return (
-    <section className="flex flex-col gap-4 text-white  md:rounded-md p-2 ">
-      <button
-        className="self-start text-sm"
-        onClick={() => router.push("/dashboard")}
-      >
-        ← BACK
-      </button>
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">
-          {mode === "edit" ? "Edit Event" : "Create Event"}
-        </h1>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-4 pb-4"
-          >
-            <CustomFormInput form={form} title="Title" name="title" />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder=""
-                      className="text-black"
-                      rows={10}
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex gap-4">
-              <DatePicker
-                form={form}
-                name="start_time"
-                label="Start:"
-                placeholder="Pick a starting time"
-                mode="start_time"
+    <section className="flex gap-4 text-white md:rounded-md p-2 justify-center">
+      <div className="flex-grow max-w-[50rem] flex flex-col gap-4">
+        <button
+          className="self-start text-sm"
+          onClick={() => router.push("/dashboard")}
+        >
+          ← BACK
+        </button>
+        <div className="flex flex-col gap-4">
+          <h1 className="text-2xl font-bold text-gray-400">
+            {mode === "edit" ? "Edit Event" : "Create Event"}
+          </h1>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-4 pb-4"
+            >
+              <CustomFormInput form={form} title="Title" name="title" />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder=""
+                        className="text-black"
+                        rows={7}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <DatePicker
-                form={form}
-                name="end_time"
-                label="End:"
-                placeholder="Pick a time"
-                mode="end_time"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <CustomFormInput
-                form={form}
-                title="Location"
-                name="location"
-                onBlur={handleMapFetch}
-                onKeyUp={handleMapFetch}
-              />
-              <iframe
-                ref={iframeRef}
-                width="100%"
-                height="200"
-                className="rounded-md"
-                loading="lazy"
-                onLoad={() => console.log("loaded")}
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-                src={mapUrl ?? undefined}
-              ></iframe>
-            </div>
-            <FormField
-              control={form.control}
-              name="invited_friends"
-              render={() => (
-                <FormItem>
-                  <div className="mb-4">
-                    <FormLabel className="text-base">Invite</FormLabel>
-                    <FormDescription>
-                      Select the friends you want to invite
-                    </FormDescription>
-                  </div>
-                  {friendList.map((friendship: Friendship) => (
-                    <FormField
-                      key={friendship.friend}
-                      control={form.control}
-                      name="invited_friends"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={friendship.friend}
-                            className="flex flex-row items-start space-x-3 space-y-0 border border-gray-500 rounded-md p-2"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                className="border-white"
-                                checked={field.value?.includes(
-                                  friendship.friend
-                                )}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([
-                                        ...field.value,
-                                        friendship.friend,
-                                      ])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== friendship.friend
+              <div className="flex gap-4">
+                <DatePicker
+                  form={form}
+                  name="start_time"
+                  label="Start:"
+                  placeholder="Pick a starting time"
+                  mode="start_time"
+                />
+                <DatePicker
+                  form={form}
+                  name="end_time"
+                  label="End:"
+                  placeholder="Pick a time"
+                  mode="end_time"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <CustomFormInput
+                  form={form}
+                  title="Location"
+                  name="location"
+                  onBlur={handleMapFetch}
+                  onKeyUp={handleMapFetch}
+                />
+                <iframe
+                  ref={iframeRef}
+                  width="100%"
+                  height="200"
+                  className="rounded-md"
+                  loading="lazy"
+                  onLoad={() => console.log("loaded")}
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src={mapUrl ?? undefined}
+                ></iframe>
+              </div>
+              <FormField
+                control={form.control}
+                name="invited_friends"
+                render={() => (
+                  <FormItem>
+                    <div className="mb-4">
+                      <FormLabel className="text-base">Invite</FormLabel>
+                      <FormDescription>
+                        Select the friends you want to invite
+                      </FormDescription>
+                    </div>
+                    {friendList.map((friendship: Friendship) => (
+                      <FormField
+                        key={friendship.friend}
+                        control={form.control}
+                        name="invited_friends"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={friendship.friend}
+                              className="flex flex-row items-start space-x-3 space-y-0 border border-gray-500 rounded-md p-2"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  className="border-white"
+                                  checked={field.value?.includes(
+                                    friendship.friend
+                                  )}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          friendship.friend,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) =>
+                                              value !== friendship.friend
+                                          )
                                         )
-                                      )
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal flex flex-col gap-1">
-                              <h1 className="font-bold">
-                                {friendship.friendName}
-                              </h1>
-                              <p className="text-[0.8rem] text-[#28dfff]">
-                                @{friendship.friendUsername}
-                              </p>
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      }}
-                    />
-                  ))}
-                  <FormMessage />
-                </FormItem>
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="font-normal flex flex-col gap-1">
+                                <h1 className="font-bold">
+                                  {friendship.friendName}
+                                </h1>
+                                <p className="text-[0.8rem] text-[#28dfff]">
+                                  @{friendship.friendUsername}
+                                </p>
+                              </FormLabel>
+                            </FormItem>
+                          )
+                        }}
+                      />
+                    ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {mode === "edit" ? (
+                <div className="flex gap-4 justify-end">
+                  <Button type="submit">Save</Button>
+                  <Button
+                    type="button"
+                    onClick={() => setIsEditing && setIsEditing(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex justify-center">
+                  <Button type="submit">Submit</Button>
+                </div>
               )}
-            />
-            {mode === "edit" ? (
-              <div className="flex gap-4 justify-end">
-                <Button type="submit">Save</Button>
-                <Button
-                  type="button"
-                  onClick={() => setIsEditing && setIsEditing(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            ) : (
-              <div className="flex justify-center">
-                <Button type="submit">Submit</Button>
-              </div>
-            )}
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </div>
       </div>
     </section>
   )

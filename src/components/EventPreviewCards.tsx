@@ -20,7 +20,6 @@ interface EventTileProps {
   event: Event
   isMyEvents: boolean
   userId?: string
-  randomImage: string
 }
 
 export default function EventPreviewCards({
@@ -28,14 +27,6 @@ export default function EventPreviewCards({
   isMyEvents,
   userId,
 }: EventPreviewCardProps) {
-  const backgroundImage = [
-    "/confetti-1.jpg",
-    "/confetti-2.jpg",
-    "/confetti-3.jpg",
-  ]
-  const randomImage =
-    backgroundImage[Math.floor(Math.random() * backgroundImage.length)]
-
   return (
     <>
       {eventType.map((event) => {
@@ -45,7 +36,6 @@ export default function EventPreviewCards({
             event={event}
             isMyEvents={isMyEvents}
             userId={userId}
-            randomImage={randomImage}
           />
         )
       })}
@@ -53,11 +43,19 @@ export default function EventPreviewCards({
   )
 }
 
-function EventTile({ event, isMyEvents, userId, randomImage }: EventTileProps) {
+function EventTile({ event, isMyEvents, userId }: EventTileProps) {
   const formattedStartTime = format(
     new Date(event.start_time),
     "dd/MMM/yy HH:mm"
   )
+
+  const backgroundImage = [
+    "/confetti-1.jpg",
+    "/confetti-2.jpg",
+    "/confetti-3.jpg",
+  ]
+  const randomImage =
+    backgroundImage[Math.floor(Math.random() * backgroundImage.length)]
 
   const invitationData = useInvitationData(event.id, userId!, isMyEvents)
 
@@ -71,7 +69,6 @@ function EventTile({ event, isMyEvents, userId, randomImage }: EventTileProps) {
       }
       className="bg-[#00000086] aspect-video rounded-[10px] relative overflow-hidden"
     >
-      {/* <div className="h-[100%] w-auto bg-[#535353]"></div> */}
       <img src={randomImage} alt="" />
       <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-end px-4 py-2 bg-gradient-to-b from-transparent from-10% via-[#000000b4] via-70% to-[#000000f2]">
         {!isMyEvents && (

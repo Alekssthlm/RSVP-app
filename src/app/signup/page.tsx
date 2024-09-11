@@ -14,18 +14,19 @@ import {
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerWithEmailAndPassword } from "@/actions/supabase"
-import { Provider } from "@supabase/supabase-js"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
 import CustomFormInput from "@/components/CustomFormInput"
 import { Checkbox } from "@/components/ui/checkbox"
 import TermsAndConditions from "@/components/TermsAndConditions"
+import Link from "next/link"
 
 export default function SignUpPage(this: any) {
   const [userControlErrors, setUserControlErrors] = useState<{
     email?: string
     username?: string
   }>({})
+  const [successMessage, setSuccessMessage] = useState("")
   const router = useRouter()
   const supabaseBrowserClient = getSupabaseBrowserClient()
 
@@ -101,6 +102,8 @@ export default function SignUpPage(this: any) {
       console.error(error)
       setUserControlErrors(error)
       return
+    } else {
+      setSuccessMessage("Check your email for a verification link.")
     }
   }
 
@@ -116,8 +119,8 @@ export default function SignUpPage(this: any) {
 
   return (
     <section className="flex justify-center">
-      <div className="flex flex-col w-[50%] max-w-[25rem] gap-4">
-        <h1>SIGN UP</h1>
+      <div className="flex flex-col w-[50%] max-w-[30rem] gap-4 bg-[#012d42] p-4 rounded-md">
+        <h1 className="text-xl text-white font-bold">SIGN UP</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -169,11 +172,12 @@ export default function SignUpPage(this: any) {
                     <FormControl>
                       <Checkbox
                         checked={field.value}
+                        className="border-white text-white"
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
 
-                    <FormLabel>
+                    <FormLabel className="text-white">
                       I have read and agree to the Terms of Service and Privacy
                       Policy.
                     </FormLabel>
@@ -182,10 +186,19 @@ export default function SignUpPage(this: any) {
                 </FormItem>
               )}
             />
+            <div>
+              <p className="text-xl h-8 text-white">{successMessage}</p>
+            </div>
 
             <Button type="submit">Submit</Button>
           </form>
         </Form>
+        <h1 className="text-white text-sm self-center">
+          Already registered?{" "}
+          <Link href={"/login"} className="text-[#28dfff] hover:underline">
+            Login here.
+          </Link>
+        </h1>
       </div>
     </section>
   )

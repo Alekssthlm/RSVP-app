@@ -155,7 +155,7 @@ export default function EventDisplay({
           <div
             className={`${
               supportsMasking ? "mt-[-4rem]" : "mt-[0rem]"
-            } bg-gradient-to-b from-transparent from-0% via-[#000000b4] via-5% to-[#000000f2] py-4 flex flex-col gap-4 px-4 flex-1 rounded-b-xl`}
+            } bg-gradient-to-b from-transparent from-0% via-[#000000b4] via-5% to-[#000000f2] py-4 flex flex-col gap-8 px-4 lg:px-8 flex-1 rounded-b-xl`}
           >
             <div className="z-10 flex justify-between ">
               <div>
@@ -176,28 +176,36 @@ export default function EventDisplay({
             <div className="flex gap-2">
               <CalendarDays className="self-center" />
               <div className="bg-[#031d2a] py-1 px-4 rounded-md">
-                <span className="text-[0.8rem] text-[#28dfff]">Start</span>
+                <span className="text-sm lg:text-base text-[#28dfff]">
+                  Start
+                </span>
                 <p className="text-sm md:text-lg">{formattedStartTime}</p>
               </div>
               <div className="bg-[#031d2a] py-1 px-4 rounded-md">
-                <span className="text-[0.8rem] text-[#28dfff]">End</span>
+                <span className="text-sm lg:text-base text-[#28dfff]">End</span>
                 <p className="text-sm md:text-lg">{formattedEndTime}</p>
               </div>
             </div>
-            <div>
-              <span className="text-[0.8rem] text-[#28dfff]">Location</span>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm lg:text-base text-[#28dfff]">
+                Location
+              </span>
               <p>{eventData.location}</p>
             </div>
-            <div>
-              <span className="text-[0.8rem] text-[#28dfff]">Description</span>
-              <pre className="text-wrap">{eventData.description}</pre>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm lg:text-base text-[#28dfff]">
+                Description
+              </span>
+              <pre className="text-wrap max-w-[55rem]">
+                {eventData.description}
+              </pre>
             </div>
 
-            <div>
-              <span className="text-[0.8rem] text-[#28dfff]">
+            <div className="max-w-[55rem] flex flex-col gap-2">
+              <span className="text-sm lg:text-base text-[#28dfff]">
                 People invited
               </span>
-              <div className="border border-gray-800 rounded-md p-2 flex flex-col gap-1">
+              <div className="border border-gray-800 rounded-md flex flex-col gap-1">
                 {invitedFriends.map((person: any) => (
                   <div
                     key={person.id}

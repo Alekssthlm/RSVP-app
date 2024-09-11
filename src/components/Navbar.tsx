@@ -141,7 +141,7 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
         </Link>
         <Link href={`/profile/${user.username}`}>
           <Avatar>
-            <AvatarImage src={avatar_url} />
+            <AvatarImage src={avatar_url} className="bg-gray-500" />
             <AvatarFallback className="bg-gray-700">
               <User />
             </AvatarFallback>
