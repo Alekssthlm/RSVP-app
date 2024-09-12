@@ -106,7 +106,7 @@ export default function Page() {
                 <h2 className="text-white text-[0.8rem]">
                   {result?.full_name}
                 </h2>
-                <p className="text-[0.8rem] text-[#009db9]">
+                <p className="text-[0.8rem] text-[#28dfff]">
                   @{result?.username}
                 </p>
               </div>
@@ -116,7 +116,7 @@ export default function Page() {
       </div>
 
       <section className="flex flex-col lg:flex-row gap-6 pt-2 text-white lg:flex-1">
-        <div className="rounded-xl lg:order-2 flex-1 lg:bg-[#031d2a] lg:p-2">
+        <div className=" lg:order-2 flex-1 lg:border-l border-l-gray-800 lg:py-2 lg:px-4">
           <h1 className=" text-[1.5rem] font-bold">Requests</h1>
           {friendRequests.length > 0 ? (
             friendRequests.map((req) => (
@@ -172,11 +172,11 @@ export default function Page() {
                     )}
 
                     {friend.initiated_by === userId ? (
-                      <p className="text-[0.8rem] text-[#009db9] ">
+                      <p className="text-[0.8rem] text-[#28dfff] ">
                         @{friend.username_2}
                       </p>
                     ) : (
-                      <p className="text-[0.8rem] text-[#009db9]">
+                      <p className="text-[0.8rem] text-[#28dfff]">
                         @{friend.username_1}
                       </p>
                     )}

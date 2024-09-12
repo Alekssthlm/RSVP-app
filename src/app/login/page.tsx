@@ -73,7 +73,7 @@ export default function LoginPage(this: any) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-20"
+            className="flex flex-col gap-10"
           >
             <div className="flex flex-col gap-4">
               <CustomFormInput
@@ -89,12 +89,12 @@ export default function LoginPage(this: any) {
                 type="password"
                 onChange={clearError}
               />
+              <div>
+                <p className="text-base h-8 text-red-600">{loginError}</p>
+              </div>
             </div>
 
-            <Button
-              type="submit"
-              className={`${loginError && "bg-red-500"}`}
-            >{`${loginError ? loginError : "Submit"}`}</Button>
+            <Button type="submit">Submit</Button>
           </form>
         </Form>
 

@@ -28,7 +28,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col h-dvh bg-[#011017] mx-auto`}
+        className={`${inter.className} flex flex-col h-dvh bg-[#021b26] mx-auto`}
       >
         <AuthProvider>
           <header>

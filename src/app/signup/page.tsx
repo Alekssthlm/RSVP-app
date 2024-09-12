@@ -187,7 +187,7 @@ export default function SignUpPage(this: any) {
               )}
             />
             <div>
-              <p className="text-xl h-8 text-white">{successMessage}</p>
+              <p className="text-base h-8 text-white">{successMessage}</p>
             </div>
 
             <Button type="submit">Submit</Button>

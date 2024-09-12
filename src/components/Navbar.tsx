@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { usePathname, useRouter } from "next/navigation"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import AuthStateContext from "@/context/AuthStateContext"
+import { set } from "date-fns"
 
 const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
   const { isLoggedIn, setIsLoggedIn, setUser, userId, setUserId } =
@@ -29,6 +30,7 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
       setIsLoggedIn(false)
       setUser(undefined)
       setUserId(undefined)
+      setIsOpen(false)
     }
     router.push("/")
     router.refresh()
@@ -36,13 +38,10 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
 
   if (!user) {
     return (
-      <nav className="text-[#c6c6c6] sm:text-xl h-[4rem] ">
+      <nav className="text-white sm:text-xl h-[4rem] ">
         <div className="flex flex-wrap items-center justify-between mx-auto p-4 ">
-          <Link
-            href="/"
-            className="flex items-center space-x-3 border p-2 rounded-sm"
-          >
-            Home
+          <Link href="/" className="text-2xl font-bold p-2 text-[#28dfff]">
+            RSVP
           </Link>
 
           <div className="flex items-center space-x-5 w-auto">
@@ -56,7 +55,7 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
     )
   }
   return (
-    <nav className=" text-[#c6c6c6] sm:text-xl h-[4rem] md:hidden">
+    <nav className=" text-white sm:text-xl h-[4rem] md:hidden">
       <div className="flex flex-wrap items-center justify-between mx-auto p-4 ">
         <div>
           <div className="">
@@ -72,7 +71,7 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
 
             <div
               id="mobile-menu"
-              className={`absolute flex flex-col top-0 left-0 right-0 bottom-0 bg-[#000d13f2] text-white shadow-lg py-1 z-50 ${
+              className={`absolute flex flex-col top-0 left-0 right-0 bottom-0 bg-[#000f17f2] text-white shadow-lg py-1 z-50 ${
                 isOpen ? "block" : "hidden"
               } transition-all duration-300 ease-in-out`}
               aria-hidden={!isOpen}
@@ -136,7 +135,7 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
           </div>
         </div>
 
-        <Link href="/" className="text-xl">
+        <Link href="/" className="text-2xl font-bold p-2 text-[#28dfff]">
           RSVP
         </Link>
         <Link href={`/profile/${user.username}`}>
