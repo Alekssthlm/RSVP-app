@@ -60,7 +60,6 @@ export default function EventForm({
   const { userId } = useContext(AuthStateContext)
   const fetchFriendshipsData = useFriendshipsListener(userId)
   const [mapUrl, setMapUrl] = React.useState<string | null>(null)
-  const [message, setMessage] = useState("")
   const router = useRouter()
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const friendList = useGetFriends(userId, fetchFriendshipsData, "accepted")
@@ -148,6 +147,7 @@ export default function EventForm({
       return
     } else {
       const result = await createEvent(newValues)
+      router.push("/dashboard?tab=my_events")
       console.log(result.message)
     }
   }
@@ -189,7 +189,7 @@ export default function EventForm({
                   </FormItem>
                 )}
               />
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
                 <DatePicker
                   form={form}
                   name="start_time"

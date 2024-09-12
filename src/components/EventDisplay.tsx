@@ -67,7 +67,7 @@ export default function EventDisplay({
     const response = await deleteEvent(event_id, authIsEventOrganiser)
 
     setIsDeleting(false)
-    router.push("/dashboard")
+    router.push("/dashboard?tab=my_events")
   }
 
   const formattedStartTime = eventData?.start_time
@@ -87,7 +87,14 @@ export default function EventDisplay({
       <section className="flex flex-col gap-4 text-white bg-[#011b2988] md:rounded-xl flex-1  ">
         <div className="relative flex flex-col flex-1">
           <div className="flex justify-between absolute top-0 left-0 right-0 z-10 p-2">
-            <Link href={"/dashboard"} className="text-white text-sm">
+            <Link
+              href={
+                authIsEventOrganiser
+                  ? "/dashboard?tab=my_events"
+                  : "/dashboard?tab=invitations"
+              }
+              className="text-white text-sm"
+            >
               ← BACK
             </Link>
             {authIsEventOrganiser ? (

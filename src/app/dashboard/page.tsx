@@ -6,16 +6,23 @@ import { useContext } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Plus } from "lucide-react"
 import EventPreviewCards from "@/components/EventPreviewCards"
+import { useSearchParams } from "next/navigation"
 
 export default function Page() {
   const { userId } = useContext(AuthStateContext)
   const { myEvents, otherEvents, loading } = useEventsPreviewListener(userId)
+  const searchParams = useSearchParams()
+  const tab = searchParams.get("tab")
+  console.log(tab)
 
   return (
     <div className="text-white flex flex-grow">
       {!loading && (
         <div className="p-4 flex-grow h-full">
-          <Tabs defaultValue="invitations" className="flex-grow flex flex-col">
+          <Tabs
+            defaultValue={(tab as string) || "invitations"}
+            className="flex-grow flex flex-col"
+          >
             <TabsList className="self-center bg-black m-0 mb-4 w-full">
               <TabsTrigger value="invitations" className="flex-1">
                 Invitations
