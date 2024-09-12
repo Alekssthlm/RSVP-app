@@ -68,7 +68,7 @@ export async function loginWithEmailAndPassword({
   email: string
   password: string
 }) {
-  const supabase = await supabaseServerClient()
+  const supabase = supabaseServerClient()
   const response = await supabase.auth.signInWithPassword({
     email,
     password,

@@ -13,7 +13,6 @@ export default function Page() {
   const { myEvents, otherEvents, loading } = useEventsPreviewListener(userId)
   const searchParams = useSearchParams()
   const tab = searchParams.get("tab")
-  console.log(tab)
 
   return (
     <div className="text-white flex flex-grow">
