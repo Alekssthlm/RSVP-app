@@ -12,6 +12,12 @@ type Friendship = {
   initiated_by: string
 }
 
+interface PostgresChangesPayload<T = any> {
+  eventType: "INSERT" | "UPDATE" | "DELETE"
+  new?: T
+  old?: T
+}
+
 export function useFriendshipsListener(userId: string) {
   const [friendships, setFriendships] = useState<Friendship[]>([])
   const supabaseBrowserClient = getSupabaseBrowserClient()
@@ -41,22 +47,20 @@ export function useFriendshipsListener(userId: string) {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "friendships" },
-        (payload) => {
-          console.log("Change received!")
-
+        (payload: PostgresChangesPayload<Friendship>) => {
           if (payload.eventType === "INSERT") {
             setFriendships((prev) => [...prev, payload.new as Friendship])
           } else if (payload.eventType === "UPDATE") {
             setFriendships((prev) =>
               prev.map((friendship) =>
-                friendship.id === payload.old.id
+                friendship.id === payload.old!.id
                   ? (payload.new as Friendship)
                   : friendship
               )
             )
           } else if (payload.eventType === "DELETE") {
             setFriendships((prev) =>
-              prev.filter((friendship) => friendship.id !== payload.old.id)
+              prev.filter((friendship) => friendship.id !== payload.old!.id)
             )
           }
         }

@@ -1,6 +1,5 @@
 "use client"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
-import { set } from "date-fns"
 import { useState, useEffect } from "react"
 
 type Invitation = {
@@ -11,6 +10,12 @@ type Invitation = {
   username: string
   status: string
   profile_image: string
+}
+
+interface PostgresChangesPayload<T = any> {
+  eventType: "INSERT" | "UPDATE" | "DELETE"
+  new?: T
+  old?: T
 }
 
 export function useInvitationData(
@@ -53,16 +58,16 @@ export function useInvitationData(
               table: "invitations",
               filter: `id=eq.${invitation.id}`, // Filter by the specific invitation ID
             },
-            (payload) => {
+            (payload: PostgresChangesPayload<Invitation>) => {
               console.log("Change received for invitation")
               if (
                 payload.eventType === "UPDATE" &&
-                payload.new.status !== payload.old.status
+                payload.new!.status !== payload.old!.status
               ) {
                 setInvitationData([payload.new as Invitation])
               } else if (payload.eventType === "DELETE") {
                 setInvitationData((prevData) =>
-                  prevData.filter((item) => item.id !== payload.old.id)
+                  prevData.filter((item) => item.id !== payload.old!.id)
                 )
               } else if (payload.eventType === "INSERT") {
                 setInvitationData([payload.new as Invitation])

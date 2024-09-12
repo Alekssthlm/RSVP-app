@@ -55,7 +55,7 @@ export function useEventsPreviewListener(userId: string) {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "events" },
-        (payload) => {
+        (payload: any) => {
           const event = payload.new as Events
 
           if (payload.eventType === "INSERT") {
@@ -75,9 +75,9 @@ export function useEventsPreviewListener(userId: string) {
               )
             }
           } else if (payload.eventType === "DELETE") {
-            setMyEvents((prev) => prev.filter((e) => e.id !== payload.old.id))
+            setMyEvents((prev) => prev.filter((e) => e.id !== payload.old!.id))
             setOtherEvents((prev) =>
-              prev.filter((e) => e.id !== payload.old.id)
+              prev.filter((e) => e.id !== payload.old!.id)
             )
           }
         }
