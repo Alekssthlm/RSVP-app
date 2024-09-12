@@ -7,8 +7,6 @@ import { Form } from "@/components/ui/form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginWithEmailAndPassword } from "@/actions/supabase"
-import { Provider } from "@supabase/supabase-js"
-import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
 import AuthStateContext from "@/context/AuthStateContext"
 import CustomFormInput from "@/components/CustomFormInput"
@@ -18,7 +16,6 @@ export default function LoginPage(this: any) {
   const { setIsLoggedIn, setUser, setUserId } = useContext(AuthStateContext)
   const [loginError, setLoginError] = useState("")
   const router = useRouter()
-  const supabaseBrowserClient = getSupabaseBrowserClient()
 
   const formSchema = z.object({
     email: z.string().email({ message: "Invalid email address" }),
