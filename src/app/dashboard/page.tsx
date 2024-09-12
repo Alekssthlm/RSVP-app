@@ -20,7 +20,7 @@ export default function Page() {
       {!loading && (
         <div className="p-4 flex-grow h-full">
           <Tabs
-            defaultValue={(tab as string) || "invitations"}
+            defaultValue={(tab as string) || "my_events"}
             className="flex-grow flex flex-col"
           >
             <TabsList className="self-center bg-black m-0 mb-4 w-full">
