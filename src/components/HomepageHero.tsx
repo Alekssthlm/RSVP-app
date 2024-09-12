@@ -30,13 +30,13 @@ export default function HomepageHero() {
               className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white"
             >
               <span id="title-1" className="inline-block">
-                Plan,
+                Plan.
               </span>{" "}
               <span id="title-2" className="inline-block">
-                Share,
+                Share.
               </span>{" "}
               <span id="title-3" className="text-[#28dfff] inline-block">
-                Celebrate
+                Celebrate!
               </span>
             </h1>
             <p
