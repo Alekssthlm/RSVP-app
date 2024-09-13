@@ -31,17 +31,14 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "./ui/textarea"
 import { useState } from "react"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { useRouter } from "next/navigation"
-import { useUserProfileImage } from "@/hooks/useUserProfileImage"
 import { deleteUserImage } from "@/utils/deleteUserImage"
 import { MinusCircle } from "lucide-react"
 
@@ -74,6 +71,7 @@ export function EditProfileModal({
   const { id, username, full_name, email, profile_image, bio } = currentProfile
   const [bioLength, setBioLength] = useState(bio.length)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const supabaseBrowserClient = getSupabaseBrowserClient()
   const maxBioLength = 150
   const router = useRouter()
 
@@ -161,6 +159,47 @@ export function EditProfileModal({
     }
   }
 
+  const handleDeleteAccount = async () => {
+    const {
+      data: { session },
+    } = await supabaseBrowserClient.auth.getSession()
+
+    // GET USER FROM SESSION WHEN ON CLIENT SIDE
+    const user = session?.user
+    const userId = user?.id
+
+    if (!userId) {
+      console.error("User ID is not available")
+      return
+    }
+
+    try {
+      const response = await fetch("/api/deleteUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to delete user")
+      }
+
+      const { error } = await supabaseBrowserClient.auth.signOut()
+      if (error) {
+        throw new Error(error.message)
+      } else {
+        router.push("/")
+        router.refresh()
+      }
+    } catch (error) {
+      console.error("Error:", error)
+    }
+  }
+
   return (
     <Dialog
       modal={true}
@@ -178,7 +217,7 @@ export function EditProfileModal({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px] bg-black border-none sm:border-gray-600">
+      <DialogContent className="sm:max-w-[425px] bg-black border-none sm:border-gray-600 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-white">Edit profile</DialogTitle>
           <DialogDescription>
@@ -271,7 +310,7 @@ export function EditProfileModal({
                     <FormControl>
                       <Input
                         type="file"
-                        className="max-w-[18rem]"
+                        className="text-sm"
                         accept="image/*"
                         onChange={(event) => {
                           field.onChange(event.target.files?.[0] || undefined)
@@ -294,6 +333,33 @@ export function EditProfileModal({
                 Save changes
               </Button>
             </DialogFooter>
+            <p className="text-white text-lg font-semibold mt-4 leading-none tracking-tight">
+              Account
+            </p>
+            <div className="border-gray-500 border px-2 py-2 mt-2 rounded-md">
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button className=" text-red-500 text-sm rounded">
+                    {" "}
+                    Delete Account{" "}
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will permanently delete your account.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDeleteAccount}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </form>
         </Form>
       </DialogContent>

@@ -11,8 +11,9 @@ import { getUserImage } from "@/actions/getUserImage"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Events app",
-  description: "Create and manage events",
+  title: "RSVP",
+  description:
+    "Create memorable gatherings and effortlessly manage RSVPs all in one place",
 }
 
 export default async function RootLayout({
