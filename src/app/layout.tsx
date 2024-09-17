@@ -22,6 +22,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const user = await getUserData()
+
   const AVATAR = "/profile-image.png"
   const public_image_url =
     (user && (await getUserImage(user.profile_image))) || AVATAR
@@ -33,10 +34,10 @@ export default async function RootLayout({
       >
         <AuthProvider>
           <header>
-            <Navbar user={user} avatar_url={public_image_url} />
+            <Navbar avatar_url={public_image_url} />
           </header>
           <div className="flex flex-grow h-full overflow-hidden">
-            {user && <Sidebar avatar_url={public_image_url} />}
+            <Sidebar avatar_url={public_image_url} />
             <main className="flex-[3] flex flex-col overflow-y-auto relative">
               {children}
             </main>

@@ -1,10 +1,8 @@
 import getProfileData from "@/actions/getProfileData"
 import getUserData from "@/actions/getUserData"
 import { getUserImage } from "@/actions/getUserImage"
-import updateUserSkill from "@/actions/updateUserSkill"
 import { EditProfileModal } from "@/components/EditProfileModal"
 import SendFriendRequestButton from "@/components/SendFriendRequestButton"
-import { MessageSquareMore } from "lucide-react"
 import Image from "next/image"
 import { redirect } from "next/navigation"
 

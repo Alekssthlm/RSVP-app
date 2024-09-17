@@ -219,7 +219,6 @@ export default function EventForm({
                   height="200"
                   className="rounded-md"
                   loading="lazy"
-                  onLoad={() => console.log("loaded")}
                   allowFullScreen
                   referrerPolicy="no-referrer-when-downgrade"
                   src={mapUrl ?? undefined}

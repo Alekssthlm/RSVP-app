@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import AuthStateContext from "@/context/AuthStateContext"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
-import { set } from "react-hook-form"
+import { usePathname } from "next/navigation"
 
 interface AuthProviderProps {
   children: React.ReactNode
@@ -13,6 +13,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<any>()
   const [userId, setUserId] = useState<string>()
   const supabaseBrowserClient = getSupabaseBrowserClient()
+  const pathname = usePathname()
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -32,7 +33,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     getCurrentUser()
-  }, [])
+  }, [pathname])
 
   return (
     <AuthStateContext.Provider

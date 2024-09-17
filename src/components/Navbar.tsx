@@ -13,10 +13,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { usePathname, useRouter } from "next/navigation"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import AuthStateContext from "@/context/AuthStateContext"
-import { set } from "date-fns"
 
-const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
-  const { isLoggedIn, setIsLoggedIn, setUser, userId, setUserId } =
+const Navbar = ({ avatar_url }: { avatar_url: string }) => {
+  const { isLoggedIn, setIsLoggedIn, user, setUser, userId, setUserId } =
     useContext(AuthStateContext)
   const router = useRouter()
   const supabaseBrowserClient = getSupabaseBrowserClient()
@@ -89,11 +88,10 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
               </div>
               <div className="flex flex-col gap-4">
                 <Link
-                  href={`/profile/${user.username}`}
+                  href={`/profile/${user}`}
                   prefetch={true}
                   className={`flex items-center gap-2 px-4 py-2 text-[1.2rem] hover:bg-gray-100  ${
-                    pathname?.startsWith(`/profile/${user.username}`) &&
-                    "text-[#28dfff]"
+                    pathname?.startsWith(`/profile/${user}`) && "text-[#28dfff]"
                   }`}
                   onClick={toggleMenu}
                 >
@@ -138,7 +136,7 @@ const Navbar = ({ user, avatar_url }: { user: any; avatar_url: string }) => {
         <Link href="/" className="text-2xl font-bold p-2 text-[#28dfff]">
           RSVP
         </Link>
-        <Link href={`/profile/${user.username}`}>
+        <Link href={`/profile/${user}`}>
           <Avatar>
             <AvatarImage src={avatar_url} className="bg-gray-500" />
             <AvatarFallback className="bg-gray-700">

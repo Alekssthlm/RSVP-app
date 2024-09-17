@@ -6,10 +6,9 @@ import { useContext } from "react"
 import { getSupabaseBrowserClient } from "@/utils/supabaseClient"
 import { usePathname, useRouter } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 
 export default function Sidebar({ avatar_url }: { avatar_url: string }) {
-  const { isLoggedIn, setIsLoggedIn, user, setUser, userId, setUserId } =
+  const { setIsLoggedIn, user, setUser, setUserId } =
     useContext(AuthStateContext)
   const router = useRouter()
   const supabaseBrowserClient = getSupabaseBrowserClient()
@@ -25,6 +24,11 @@ export default function Sidebar({ avatar_url }: { avatar_url: string }) {
     router.push("/")
     router.refresh()
   }
+
+  if (!user) {
+    return null
+  }
+
   return (
     <aside className="flex-1 hidden md:block text-white ">
       <nav className="flex flex-col h-full gap-8 bg-[#003047]  pt-4">
